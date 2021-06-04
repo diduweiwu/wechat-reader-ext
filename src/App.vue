@@ -1,11 +1,12 @@
 <template>
-  <div class="panel"></div>
+  <div class="panel">
+    <el-button type="primary">我是按钮</el-button>
+  </div>
 </template>
 
 <script>
 export default {
   name: "app",
-  data() {},
 };
 </script>
 
@@ -13,7 +14,7 @@ export default {
 .panel {
   width: 100px;
   height: 100px;
-  background-color: red;
+  background-color: rgb(145, 184, 241);
   position: fixed;
   top: 10px;
   right: 10px;
