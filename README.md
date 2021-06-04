@@ -38,9 +38,15 @@ npm install
 打包使用 npm run build 即可,打包会在./dist目录下生成一个js bundle，正好符合油猴脚本需要
 ```
 
-- 油猴加载本地 js
+- 油猴加载本地 js 进行调试
 
 ```text
 使用 @require file://xxxxx/dist/build.js 方式引入
 但是使用这种方式需要到tampermonkey插件详情打开"允许访问文件网址"权限
+```
+
+- 发布
+
+```text
+npm run build后复制 dist/build.js里面内容到油猴发布页面粘贴发布
 ```
