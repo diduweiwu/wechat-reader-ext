@@ -1,9 +1,7 @@
 ### V2全新版本，支持丰富的配置，所有配置做持久化，重启刷新浏览器不再丢失~
 ### 使用说明
-- 单开一个只有一个tab的浏览器窗口
 - 打开一本书的微信读书界面,点击界面右中方“读”字按钮，然后修改相应配置，再打开“滚屏阅读”到开启即可
-- 不要最小化浏览器,也不要在当前浏览器窗口新开tab,否则会被检测到,等着刷时长就行了
-- 建议安装 Don't make me watch 插件(https://chrome.google.com/webstore/detail/dont-make-me-watch/ahjofnjojbnikkffhagdddimbcmcphhh)
+- 如果需要后台刷时长，请开启“滚屏阅读”和“自动时长”两个开关即可
 
 ### 更新日志
 
