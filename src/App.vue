@@ -1,5 +1,5 @@
 <template>
-  <el-popover placement="left" :width="350" title="阅读配置">
+  <el-popover placement="left" :width="330" title="阅读配置">
     <template #reference>
       <el-button
         :style="{ opacity: config.isScrolling ? 0.5 : 1 }"
@@ -110,12 +110,42 @@
             <el-radio border :label="false">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
+
       </el-form>
+      <el-divider>我的账户</el-divider>
+      <el-row :gutter="10">
+        <el-col :span="12">
+          <el-card shadow="hover">
+            <span>安卓书币</span>
+            <br><strong class="gray">{{ me.androidBookCoin }} 个</strong>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card shadow="hover">
+            <span>苹果书币</span>
+            <br><strong class="gray">{{ me.iosBookCoin }} 个</strong>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card shadow="hover">
+            <span>无限卡</span>
+            <br><strong class="gray">{{ me.infiniteCardDays }} 天</strong>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card shadow="hover">
+            <span>源码地址</span>
+            <br><strong class="gray"><a href="https://gitee.com/diduweiwu-itestdev/wechat-reader-ext" target="_blank">点击直达🧐</a></strong>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-card>
   </el-popover>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "wechatReaderExt",
   data: () => ({
@@ -148,6 +178,15 @@ export default {
     timerScroll: null,
     timerTurnPage: null,
     timeFlash: null,
+
+    me: {
+      // 无限卡天数
+      infiniteCardDays: 0,
+      // ios端书币
+      iosBookCoin: 0,
+      // 安卓端书币
+      androidBookCoin: 0,
+    },
   }),
   methods: {
     // 计算翻页方向 -1往前翻 1 往后翻
@@ -274,6 +313,20 @@ export default {
       const myEvent = new Event("resize");
       window.dispatchEvent(myEvent);
     },
+    // load member info
+    loadMemberInfo() {
+      const balanceCallback = res => {
+        const {giftBalance: iosBookCoin, peerBalance: androidBookCoin, welfare} = res.data
+        const {expiredTime} = welfare
+        const infiniteCardDays = Math.floor(expiredTime / 3600 / 24)
+        Object.assign(this.me, {iosBookCoin, androidBookCoin, infiniteCardDays})
+      }
+      axios.post(`/web/pay/balance`, {
+        "zoneid": "1",
+        "release": "1",
+        "pf": "weread_wx-2001-iap-2001-iphone"
+      }).then(balanceCallback)
+    }
   },
   watch: {
     "config.isScrolling"(newValue, oldValue) {
@@ -341,6 +394,7 @@ export default {
   },
   mounted() {
     this.loadConfig();
+    this.loadMemberInfo()
   },
 };
 </script>
@@ -350,5 +404,13 @@ export default {
   position: fixed;
   top: calc(100vh / 2);
   right: 10px;
+}
+
+.el-col {
+  margin-bottom: 5px;
+}
+
+.gray {
+  color: #928b8b;
 }
 </style>

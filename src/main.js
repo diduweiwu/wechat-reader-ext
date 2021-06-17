@@ -14,6 +14,8 @@ import {
   Badge,
   Card,
   Divider,
+  Row,
+  Col,
 } from 'element-ui';
 
 
@@ -28,11 +30,13 @@ Vue.use(FormItem)
 Vue.use(Badge)
 Vue.use(Card)
 Vue.use(Divider)
+Vue.use(Row)
+Vue.use(Col)
 
 // 挂载节点
 const monkey_plugin = document.createElement("div")
 monkey_plugin.id = "monkey_plugin"
-monkey_plugin.style = "position:fixed;top:10px;left:10px;width:200px;height:200px;z-index:1000"
+monkey_plugin.style = "position:fixed;top:10px;left:10px;width:1px;height:1px;z-index:1000"
 document.body.appendChild(monkey_plugin)
 
 new Vue({
