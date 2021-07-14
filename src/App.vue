@@ -191,6 +191,7 @@ export default {
   methods: {
     // 计算翻页方向 -1往前翻 1 往后翻
     computeSwitchPageFlag() {
+      // 等待两秒等待页面重新加载完成
       const isLast =
         document.getElementsByClassName("readerFooter_button").length === 0;
       const isFirst =
@@ -340,12 +341,9 @@ export default {
     },
     "config.scrollFlag": {
       handler: function (newValue, oldValue) {
-        // 只有在正向滚动，并且到达底部时候，才进行翻页
-        if (
-          this.config.isScrolling &&
-          oldValue === 1 &&
-          this.config.isAutoSwitchPage
-        ) {
+        // 翻页条件 1.当前正在正向滚动 2.且到达底部时候 3.滚动方向发生改变(即-1->1)
+        const isScrollSwitched = newValue !== oldValue
+        if (this.config.isScrolling && (oldValue === 1) && isScrollSwitched && this.config.isAutoSwitchPage) {
           this.switchToNextPage();
         }
       },
@@ -361,9 +359,7 @@ export default {
     "config.isHideControls": {
       handler: function (newValue, oldValue) {
         // 只有在正向滚动，并且到达底部时候，才进行翻页
-        document.querySelector(".readerControls").style.opacity = newValue
-          ? 1
-          : 0;
+        document.querySelector(".readerControls").style.opacity = newValue ? "1" : "0";
       },
       deep: true,
       immediate: true,
