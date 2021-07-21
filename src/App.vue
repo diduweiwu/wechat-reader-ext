@@ -11,7 +11,6 @@
       </el-button>
     </template>
 
-    <el-card shadow="hover">
       <el-row :gutter="5">
         <el-col :span="12">
           <el-card style="min-height:411px">
@@ -142,7 +141,6 @@
           </el-card>
         </el-col>
       </el-row>
-    </el-card>
   </el-popover>
 </template>
 
