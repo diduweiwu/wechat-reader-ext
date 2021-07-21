@@ -13,11 +13,12 @@ import {
   FormItem,
   Badge,
   Card,
+  Tabs,
+  TabPane,
   Divider,
   Row,
   Col,
 } from 'element-ui';
-
 
 Vue.use(Input)
 Vue.use(Radio)
@@ -29,6 +30,8 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Badge)
 Vue.use(Card)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Divider)
 Vue.use(Row)
 Vue.use(Col)

@@ -10,144 +10,129 @@
       >读
       </el-button>
     </template>
-    <el-card shadow="hover">
-      <el-form ref="form" :model="config" label-width="100px" size="mini">
-        <el-form-item label="滚屏阅读">
-          <el-radio-group v-model="config.isScrolling" size="mini">
-            <el-radio border :label="true">开启</el-radio>
-            <el-radio border :label="false">关闭</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="滚动步长">
-          <el-input
-            :disabled="config.isScrolling"
-            v-model="config.scrollOffset"
-            min="1"
-            max="200"
-            type="number"
-            maxlength="3"
-          >
-            <template #suffix>
-              <i>像素</i>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="滚动间隔">
-          <el-input
-            :disabled="config.isScrolling"
-            v-model="config.timerScrollIMs"
-            min="200"
-            max="90000"
-            maxlength="5"
-          >
-            <template #suffix><i>毫秒</i></template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="滚动方向">
-          <el-radio-group
-            :disabled="config.isScrolling"
-            v-model="config.scrollFlag"
-          >
-            <el-radio border :label="1">正向</el-radio>
-            <el-radio border :label="-1">反向</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="自动翻页">
-          <el-radio-group
-            :disabled="config.isScrolling"
-            v-model="config.isAutoSwitchPage"
-          >
-            <el-radio border :label="true">开启</el-radio>
-            <el-radio border :label="false">关闭</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="翻页方向">
-          <el-radio-group
-            v-model="config.autoSwitchPageFlag"
-            :disabled="config.isScrolling || !config.isAutoSwitchPage"
-          >
-            <el-radio border :label="1">正向</el-radio>
-            <el-radio border :label="-1">反向</el-radio>
-          </el-radio-group>
-        </el-form-item>
 
-        <el-form-item label="阅读宽度">
-          <el-input
-            v-model="config.readContentWidth"
-            type="number"
-            :max="20000"
-            :min="100"
-          >
-            <template #suffix><i>像素</i></template>
-          </el-input>
-        </el-form-item>
+    <el-tabs v-model="menuTab">
+      <el-tab-pane label="用户管理" name="reading">
+        <el-card shadow="hover">
+          <el-form ref="form" :model="config" label-width="100px" size="mini">
+            <el-form-item label="滚屏阅读">
+              <el-radio-group v-model="config.isScrolling" size="mini">
+                <el-radio border :label="true">开启</el-radio>
+                <el-radio border :label="false">关闭</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="滚动步长">
+              <el-input
+                :disabled="config.isScrolling"
+                v-model="config.scrollOffset"
+                min="1"
+                max="200"
+                type="number"
+                maxlength="3"
+              >
+                <template #suffix>
+                  <i>像素</i>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="滚动间隔">
+              <el-input
+                :disabled="config.isScrolling"
+                v-model="config.timerScrollIMs"
+                min="200"
+                max="90000"
+                maxlength="5"
+              >
+                <template #suffix><i>毫秒</i></template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="滚动方向">
+              <el-radio-group
+                :disabled="config.isScrolling"
+                v-model="config.scrollFlag"
+              >
+                <el-radio border :label="1">正向</el-radio>
+                <el-radio border :label="-1">反向</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="自动翻页">
+              <el-radio-group
+                :disabled="config.isScrolling"
+                v-model="config.isAutoSwitchPage"
+              >
+                <el-radio border :label="true">开启</el-radio>
+                <el-radio border :label="false">关闭</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="翻页方向">
+              <el-radio-group
+                v-model="config.autoSwitchPageFlag"
+                :disabled="config.isScrolling || !config.isAutoSwitchPage"
+              >
+                <el-radio border :label="1">正向</el-radio>
+                <el-radio border :label="-1">反向</el-radio>
+              </el-radio-group>
+            </el-form-item>
 
-        <el-divider direction="horizontal" content-position="center"
-        >其他
-        </el-divider
-        >
-        <el-form-item>
-          <template #label>
-            <el-tooltip placement="left">
-              <div slot="content">
-                开启自动刷时长模式后，可将页面放到后台 <br>
-                会间隔一定时间刷新页面，避免被微信读书检测导致暂停时长累积 <br>
-                如果您一直在前端阅读，则可以关闭该项避免影响阅读体验
-              </div>
-              <span><i class="el-icon-info"/> 自动时长</span>
-            </el-tooltip>
-          </template>
-          <el-radio-group
-            v-model="config.timeFlashMode"
-          >
-            <el-radio border :label="true">开启</el-radio>
-            <el-radio border :label="false">关闭</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="工具栏">
-          <el-radio-group v-model="config.isHideControls">
-            <el-radio border :label="true">显示</el-radio>
-            <el-radio border :label="false">隐藏</el-radio>
-          </el-radio-group>
-        </el-form-item>
+            <el-form-item label="阅读宽度">
+              <el-input
+                v-model="config.readContentWidth"
+                type="number"
+                :max="20000"
+                :min="100"
+              >
+                <template #suffix><i>像素</i></template>
+              </el-input>
+            </el-form-item>
 
-      </el-form>
-      <el-divider>我的账户</el-divider>
-      <el-row :gutter="10">
-        <el-col :span="12">
-          <el-card shadow="hover">
-            <span>安卓书币</span>
-            <br><strong class="gray">{{ me.androidBookCoin }} 个</strong>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card shadow="hover">
-            <span>苹果书币</span>
-            <br><strong class="gray">{{ me.iosBookCoin }} 个</strong>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card shadow="hover">
-            <span>无限卡</span>
-            <br><strong class="gray">{{ me.infiniteCardDays }} 天</strong>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card shadow="hover">
-            <span>源码地址</span>
-            <br><strong class="gray"><a href="https://gitee.com/diduweiwu-itestdev/wechat-reader-ext" target="_blank">点击直达🧐</a></strong>
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-card>
+            <el-divider direction="horizontal" content-position="center"
+            >其他
+            </el-divider
+            >
+            <el-form-item>
+              <template #label>
+                <el-tooltip placement="left">
+                  <div slot="content">
+                    开启自动刷时长模式后，可将页面放到后台 <br>
+                    会间隔一定时间刷新页面，避免被微信读书检测导致暂停时长累积 <br>
+                    如果您一直在前端阅读，则可以关闭该项避免影响阅读体验
+                  </div>
+                  <span><i class="el-icon-info"/> 自动时长</span>
+                </el-tooltip>
+              </template>
+              <el-radio-group
+                v-model="config.timeFlashMode"
+              >
+                <el-radio border :label="true">开启</el-radio>
+                <el-radio border :label="false">关闭</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="工具栏">
+              <el-radio-group v-model="config.isHideControls">
+                <el-radio border :label="true">显示</el-radio>
+                <el-radio border :label="false">隐藏</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+          </el-form>
+        </el-card>
+
+      </el-tab-pane>
+      <el-tab-pane label="我的信息" name="me">
+        <Me/>
+      </el-tab-pane>
+    </el-tabs>
+
   </el-popover>
 </template>
 
 <script>
-import axios from "axios";
+
+import Me from "@/com/Me"
 
 export default {
   name: "wechatReaderExt",
+  components: {Me},
   data: () => ({
     config: {
       isScrolling: false,
@@ -176,17 +161,8 @@ export default {
       timeFlashMode: false,
     },
     timerScroll: null,
-    timerTurnPage: null,
     timeFlash: null,
-
-    me: {
-      // 无限卡天数
-      infiniteCardDays: 0,
-      // ios端书币
-      iosBookCoin: 0,
-      // 安卓端书币
-      androidBookCoin: 0,
-    },
+    menuTab: 'reading',
   }),
   methods: {
     // 计算翻页方向 -1往前翻 1 往后翻
@@ -222,7 +198,7 @@ export default {
         this.config.scrollFlag = 1;
       }
     },
-    start() {
+    startAutoScroll() {
       if (this.timerScroll == null) {
         const _this = this;
         this.timerScroll = setInterval(function () {
@@ -235,14 +211,7 @@ export default {
         }, _this.config.timerScrollIMs);
       }
     },
-    stop() {
-      // 清除自动滚屏计时器
-      const timerScroll = this.timerScroll;
-      if (timerScroll != null) {
-        clearInterval(timerScroll);
-        this.timerScroll = null;
-      }
-    },
+
     fireKeyEvent(el, evtType, keyCode) {
       let evtObj;
       if (document.createEvent) {
@@ -314,29 +283,31 @@ export default {
       const myEvent = new Event("resize");
       window.dispatchEvent(myEvent);
     },
-    // load member info
-    loadMemberInfo() {
-      const balanceCallback = res => {
-        const {giftBalance: iosBookCoin, peerBalance: androidBookCoin, welfare} = res.data
-        const {expiredTime} = welfare
-        const infiniteCardDays = Math.floor(expiredTime / 3600 / 24)
-        Object.assign(this.me, {iosBookCoin, androidBookCoin, infiniteCardDays})
+
+    // stop all reading timer
+    stopAutoScroll() {
+      if (this.timerScroll) {
+        clearInterval(this.timerScroll)
+        this.timerScroll = null
       }
-      axios.post(`/web/pay/balance`, {
-        "zoneid": "1",
-        "release": "1",
-        "pf": "weread_wx-2001-iap-2001-iphone"
-      }).then(balanceCallback)
+    },
+    // stop auto flash mode
+    stopAutoFlash() {
+      if (this.timeFlash) {
+        clearInterval(this.timeFlash)
+        this.timeFlash = null
+      }
     }
   },
   watch: {
     "config.isScrolling"(newValue, oldValue) {
       if (newValue === true) {
-        this.start();
+        this.startAutoScroll();
       }
 
       if (newValue === false) {
-        this.stop();
+        this.stopAutoScroll()
+        this.stopAutoFlash()
       }
     },
     "config.scrollFlag": {
@@ -368,18 +339,14 @@ export default {
       if (newValue === true) {
         if (this.timeFlash === null) {
           // 70秒自动下一页避免被判定为后台
-          setInterval(this.switchToNextPage, 70000)
+          this.timeFlash = setInterval(this.switchToNextPage, 70000)
           return false
         }
       }
 
       if (newValue === false) {
-        if (this.timeFlash !== null) {
-          clearInterval(this.timeFlash)
-          this.timeFlash = null
-        }
+        this.stopAutoFlash()
       }
-
     },
     config: {
       handler: function () {
@@ -390,7 +357,6 @@ export default {
   },
   mounted() {
     this.loadConfig();
-    this.loadMemberInfo()
   },
 };
 </script>
