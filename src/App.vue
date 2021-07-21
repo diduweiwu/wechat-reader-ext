@@ -14,7 +14,7 @@
     <el-card shadow="hover">
       <el-row :gutter="5">
         <el-col :span="12">
-          <el-card>
+          <el-card style="min-height:411px">
             <div slot="header">阅读设置</div>
             <el-form
               ref="autoScroll"
