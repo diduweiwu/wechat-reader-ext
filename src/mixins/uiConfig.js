@@ -27,5 +27,16 @@ export default {
       },
       deep: true,
     },
+
+    "config.isHideControls": {
+      handler: function (newValue, oldValue) {
+        // 只有在正向滚动，并且到达底部时候，才进行翻页
+        document.querySelector(".readerControls").style.opacity = newValue
+          ? "1"
+          : "0";
+      },
+      deep: true,
+      immediate: true,
+    },
   },
 }
