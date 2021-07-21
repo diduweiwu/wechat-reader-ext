@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-divider>我的账户</el-divider>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-card shadow="hover">

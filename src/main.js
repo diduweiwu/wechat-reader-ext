@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import 'element-ui/lib/theme-chalk/index.css';
 import {
   Input,
   Radio,
@@ -11,11 +10,9 @@ import {
   Tooltip,
   Form,
   FormItem,
-  Badge,
   Card,
   Tabs,
   TabPane,
-  Divider,
   Row,
   Col,
 } from 'element-ui';
@@ -28,11 +25,9 @@ Vue.use(Popover)
 Vue.use(Tooltip)
 Vue.use(Form)
 Vue.use(FormItem)
-Vue.use(Badge)
 Vue.use(Card)
 Vue.use(Tabs)
 Vue.use(TabPane)
-Vue.use(Divider)
 Vue.use(Row)
 Vue.use(Col)
 
