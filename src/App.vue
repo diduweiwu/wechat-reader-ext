@@ -1,5 +1,5 @@
 <template>
-  <el-popover placement="left" width="800" title="阅读配置">
+  <el-popover placement="left" width="800" title="控制面板">
     <template #reference>
       <el-button
         :style="{ opacity: config.isScrolling ? 0.5 : 1 }"
