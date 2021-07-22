@@ -11,136 +11,136 @@
       </el-button>
     </template>
 
-      <el-row :gutter="5">
-        <el-col :span="12">
-          <el-card style="min-height:411px">
-            <div slot="header">阅读设置</div>
-            <el-form
-              ref="autoScroll"
-              :model="config"
-              label-width="100px"
-              size="mini"
-            >
-              <el-form-item>
-                <template #label>
-                  <el-tooltip placement="left">
-                    <div slot="content">
-                      开启自动刷时长模式后，可将页面放到后台 <br />
-                      会间隔一定时间刷新页面，避免被微信读书检测导致暂停时长累积
-                      <br />
-                      如果您一直在前端阅读，则可以关闭该项避免影响阅读体验
-                    </div>
-                    <span><i class="el-icon-info" />自动时长</span>
-                  </el-tooltip>
+    <el-row :gutter="5">
+      <el-col :span="12">
+        <el-card style="min-height: 411px">
+          <div slot="header">阅读设置</div>
+          <el-form
+            ref="autoScroll"
+            :model="config"
+            label-width="100px"
+            size="mini"
+          >
+            <el-form-item>
+              <template #label>
+                <el-tooltip placement="left">
+                  <div slot="content">
+                    开启自动刷时长模式后，可将页面放到后台 <br />
+                    会间隔一定时间刷新页面，避免被微信读书检测导致暂停时长累积
+                    <br />
+                    如果您一直在前端阅读，则可以关闭该项避免影响阅读体验
+                  </div>
+                  <span><i class="el-icon-info" />自动时长</span>
+                </el-tooltip>
+              </template>
+              <el-radio-group v-model="config.timeFlashMode">
+                <el-radio border :label="true">开启</el-radio>
+                <el-radio border :label="false">关闭</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item label="自动阅读">
+              <el-radio-group v-model="config.isScrolling" size="mini">
+                <el-radio border :label="true">开启</el-radio>
+                <el-radio border :label="false">关闭</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item label="自动步长">
+              <el-input
+                :disabled="config.isScrolling"
+                v-model="config.scrollOffset"
+                min="1"
+                max="200"
+                maxlength="3"
+                type="number"
+              >
+                <template #suffix>
+                  <i>像素</i>
                 </template>
-                <el-radio-group v-model="config.timeFlashMode">
-                  <el-radio border :label="true">开启</el-radio>
-                  <el-radio border :label="false">关闭</el-radio>
-                </el-radio-group>
-              </el-form-item>
+              </el-input>
+            </el-form-item>
 
-              <el-form-item label="自动阅读">
-                <el-radio-group v-model="config.isScrolling" size="mini">
-                  <el-radio border :label="true">开启</el-radio>
-                  <el-radio border :label="false">关闭</el-radio>
-                </el-radio-group>
-              </el-form-item>
+            <el-form-item label="滚动间隔">
+              <el-input
+                :disabled="config.isScrolling"
+                v-model="config.timerScrollIMs"
+                min="200"
+                max="90000"
+                maxlength="5"
+              >
+                <template #suffix><i>毫秒</i></template>
+              </el-input>
+            </el-form-item>
 
-              <el-form-item label="自动步长">
-                <el-input
-                  :disabled="config.isScrolling"
-                  v-model="config.scrollOffset"
-                  min="1"
-                  max="200"
-                  maxlength="3"
-                  type="number"
-                >
-                  <template #suffix>
-                    <i>像素</i>
-                  </template>
-                </el-input>
-              </el-form-item>
+            <el-form-item label="阅读方向">
+              <el-radio-group
+                :disabled="config.isScrolling"
+                v-model="config.scrollFlag"
+              >
+                <el-radio border :label="1">正向</el-radio>
+                <el-radio border :label="-1">反向</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="自动翻页">
+              <el-radio-group
+                :disabled="config.isScrolling"
+                v-model="config.isAutoSwitchPage"
+              >
+                <el-radio border :label="true">开启</el-radio>
+                <el-radio border :label="false">关闭</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="翻页方向">
+              <el-radio-group
+                v-model="config.autoSwitchPageFlag"
+                :disabled="config.isScrolling || !config.isAutoSwitchPage"
+              >
+                <el-radio border :label="1">正向</el-radio>
+                <el-radio border :label="-1">反向</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-col>
 
-              <el-form-item label="滚动间隔">
-                <el-input
-                  :disabled="config.isScrolling"
-                  v-model="config.timerScrollIMs"
-                  min="200"
-                  max="90000"
-                  maxlength="5"
-                >
-                  <template #suffix><i>毫秒</i></template>
-                </el-input>
-              </el-form-item>
+      <el-col :span="12">
+        <el-card>
+          <div slot="header">界面设置</div>
+          <el-form
+            ref="uiConfig"
+            :model="config"
+            label-width="100px"
+            size="mini"
+          >
+            <el-form-item label="阅读宽度">
+              <el-input
+                v-model="config.readContentWidth"
+                type="number"
+                :max="20000"
+                :min="100"
+              >
+                <template #suffix><i>像素</i></template>
+              </el-input>
+            </el-form-item>
 
-              <el-form-item label="阅读方向">
-                <el-radio-group
-                  :disabled="config.isScrolling"
-                  v-model="config.scrollFlag"
-                >
-                  <el-radio border :label="1">正向</el-radio>
-                  <el-radio border :label="-1">反向</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="自动翻页">
-                <el-radio-group
-                  :disabled="config.isScrolling"
-                  v-model="config.isAutoSwitchPage"
-                >
-                  <el-radio border :label="true">开启</el-radio>
-                  <el-radio border :label="false">关闭</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="翻页方向">
-                <el-radio-group
-                  v-model="config.autoSwitchPageFlag"
-                  :disabled="config.isScrolling || !config.isAutoSwitchPage"
-                >
-                  <el-radio border :label="1">正向</el-radio>
-                  <el-radio border :label="-1">反向</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-form>
-          </el-card>
-        </el-col>
+            <el-form-item label="工具栏">
+              <el-radio-group v-model="config.isHideControls">
+                <el-radio border :label="true">显示</el-radio>
+                <el-radio border :label="false">隐藏</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-col>
 
-        <el-col :span="12">
-          <el-card>
-            <div slot="header">界面设置</div>
-            <el-form
-              ref="uiConfig"
-              :model="config"
-              label-width="100px"
-              size="mini"
-            >
-              <el-form-item label="阅读宽度">
-                <el-input
-                  v-model="config.readContentWidth"
-                  type="number"
-                  :max="20000"
-                  :min="100"
-                >
-                  <template #suffix><i>像素</i></template>
-                </el-input>
-              </el-form-item>
-
-              <el-form-item label="工具栏">
-                <el-radio-group v-model="config.isHideControls">
-                  <el-radio border :label="true">显示</el-radio>
-                  <el-radio border :label="false">隐藏</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-form>
-          </el-card>
-        </el-col>
-
-        <el-col :span="12">
-          <el-card>
-            <div slot="header">我的账户</div>
-            <Me />
-          </el-card>
-        </el-col>
-      </el-row>
+      <el-col :span="12">
+        <el-card>
+          <div slot="header">我的账户</div>
+          <Me />
+        </el-card>
+      </el-col>
+    </el-row>
   </el-popover>
 </template>
 
@@ -216,7 +216,7 @@ export default {
       }
     },
     // 自动滚动任务
-    startAutoScroll() {
+    startAutoRead() {
       if (this.timerAutoRead == null) {
         const _this = this;
         this.timerAutoRead = setInterval(function () {
@@ -230,7 +230,7 @@ export default {
       }
     },
     // stop all reading timer
-    stopAutoScroll() {
+    stopAutoRead() {
       if (this.timerAutoRead) {
         clearInterval(this.timerAutoRead);
         this.timerAutoRead = null;
@@ -250,7 +250,7 @@ export default {
     // 开启刷时长模式
     startAutoFlash() {
       if (this.timeAutoSwitchPage === null) {
-        // 70秒刷新一下页面避免被判定为后台
+        // 定时切换下一页一下页面避免被判定为后台
         this.timeAutoSwitchPage = this.startAutoSwitchPage(
           this.switchToNextPage
         );
@@ -259,9 +259,9 @@ export default {
     // 停止刷时长模式
     stopAutoFlash() {
       if (this.timeAutoSwitchPage) {
-        clearInterval(this.timeAutoSwitchPage);
-        this.timeAutoSwitchPage = null;
-        this.stopAutoSwitchPage();
+        this.timeAutoSwitchPage = this.stopAutoSwitchPage(
+          this.timeAutoSwitchPage
+        );
       }
     },
   },
@@ -269,12 +269,11 @@ export default {
     // 切换了 自动阅读 开关
     "config.isScrolling"(newValue, oldValue) {
       if (newValue === true) {
-        this.startAutoScroll();
+        this.startAutoRead();
       }
 
       if (newValue === false) {
-        this.stopAutoScroll();
-        this.stopAutoFlash();
+        this.stopAutoRead();
         Object.assign(this.config, { timeFlashMode: false });
       }
     },

@@ -8,7 +8,7 @@ export default {
       config: { waitSecondsToReload: 0 },
       timeAutoReloadPage: null,
       // 刷新页面的秒数间隔
-      countSeconds: 120
+      countPageReloadSeconds: 120
     }
   },
   methods: {
@@ -23,8 +23,8 @@ export default {
       if (!this.timeAutoReloadPage) {
         this.timeAutoReloadPage = setInterval(() => {
           const seconds = this.plusWaitSeconds();
-          // 等待 大于或等于${this.countSeconds} 秒的时候刷新页面
-          if (seconds >= this.countSeconds) {
+          // 等待 大于或等于${this.countPageReloadSeconds} 秒的时候刷新页面
+          if (seconds >= this.countPageReloadSeconds) {
             this.resetWaitSeconds()
             window.location.reload()
           }

@@ -2,7 +2,7 @@ export default {
   data() {
     return {
       config: { waitSecondsToSwitch: 0 },
-      countSeconds: 180
+      countSwitchPageSeconds: 180
     }
   },
   methods: {
@@ -19,14 +19,19 @@ export default {
 
       return setInterval(() => {
         const seconds = this.plusWaitSwitchSeconds();
-        // 等待 大于或等于${this.countSeconds} 秒的时候刷新页面
-        if (seconds >= this.countSeconds) {
+        // 等待 大于或等于${this.countSwitchPageSeconds} 秒的时候刷新页面
+        if (seconds >= this.countSwitchPageSeconds) {
+          this.resetWaitSwitchSeconds()
           switchToNextPage()
         }
       }, 1000);
     },
-    stopAutoSwitchPage() {
+    stopAutoSwitchPage(timeAutoSwitchPage) {
+      if (timeAutoSwitchPage) {
+        clearInterval(timeAutoSwitchPage);
+      }
       this.resetWaitSwitchSeconds()
+      return null
     },
   },
 }
