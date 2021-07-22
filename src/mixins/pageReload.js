@@ -8,7 +8,7 @@ export default {
       config: { waitSecondsToReload: 0 },
       timeAutoReloadPage: null,
       // 刷新页面的秒数间隔
-      countPageReloadSeconds: 120
+      countPageReloadSeconds: 118
     }
   },
   methods: {

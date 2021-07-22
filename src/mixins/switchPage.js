@@ -2,7 +2,7 @@ export default {
   data() {
     return {
       config: { waitSecondsToSwitch: 0 },
-      countSwitchPageSeconds: 180
+      countSwitchPageSeconds: 120
     }
   },
   methods: {
