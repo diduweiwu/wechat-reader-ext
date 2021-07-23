@@ -1,5 +1,5 @@
 <template>
-  <el-popover placement="left" width="800" title="控制面板">
+  <el-popover placement="left" width="800">
     <template #reference>
       <el-button
         :style="{ opacity: config.isScrolling ? 0.5 : 1 }"
@@ -304,7 +304,7 @@ export default {
         // 开启定时下一页
         this.startAutoFlash();
         // 开启定时刷新页面（避免内存占用）
-        this.startAutoReloadPage();
+        // this.startAutoReloadPage();
       }
 
       if (newValue === false) {
@@ -314,7 +314,7 @@ export default {
         // 关闭定时下一页
         this.stopAutoFlash();
         // 关闭定时刷新页面
-        this.stopAutoReloadPage();
+        // this.stopAutoReloadPage();
       }
     },
   },
