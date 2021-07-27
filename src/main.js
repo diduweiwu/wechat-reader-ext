@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import {Button} from 'element-ui';
 
-Vue.use(ElementUI)
+Vue.use(Button)
 
 // 挂载节点
 const monkey_plugin = document.createElement("div")
