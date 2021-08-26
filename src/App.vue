@@ -7,7 +7,7 @@
         class="config-button"
         plain
         circle
-        >读
+      >读
       </el-button>
     </template>
 
@@ -25,12 +25,12 @@
               <template #label>
                 <el-tooltip placement="left">
                   <div slot="content">
-                    开启自动刷时长模式后，可将页面放到后台 <br />
+                    开启自动刷时长模式后，可将页面放到后台 <br/>
                     会间隔一定时间刷新页面，避免被微信读书检测导致暂停时长累积
-                    <br />
+                    <br/>
                     如果您一直在前端阅读，则可以关闭该项避免影响阅读体验
                   </div>
-                  <span><i class="el-icon-info" />自动时长</span>
+                  <span><i class="el-icon-info"/>自动时长</span>
                 </el-tooltip>
               </template>
               <el-radio-group v-model="config.timeFlashMode">
@@ -137,7 +137,7 @@
       <el-col :span="12">
         <el-card>
           <div slot="header">我的账户</div>
-          <Me />
+          <Me/>
         </el-card>
       </el-col>
     </el-row>
@@ -154,7 +154,7 @@ import switchPage from "@/mixins/switchPage";
 
 export default {
   name: "wechatReaderExt",
-  components: { Me },
+  components: {Me},
   mixins: [uiConfig, pageReload, keyEvent, appConfig, switchPage],
   data: () => ({
     config: {
@@ -185,10 +185,8 @@ export default {
     // 计算翻页方向 -1往前翻 1 往后翻
     computeSwitchPageDirection() {
       // 等待两秒等待页面重新加载完成
-      const isLast =
-        document.getElementsByClassName("readerFooter_button").length === 1;
-      const isFirst =
-        document.getElementsByClassName("readerBookInfo").length === 1;
+      const isLast = document.getElementsByClassName("readerFooter_button").length === 1;
+      const isFirst = document.getElementsByClassName("readerBookInfo").length === 1;
       // 当前是正向，并且已经到达最后一页，则切换到反向
       if (this.config.autoSwitchPageFlag === 1 && isLast) {
         return -1;
@@ -203,8 +201,7 @@ export default {
     },
     // 计算滑动方向 -1往上滑动 1往下滑动
     computeScrollPageDirection() {
-      const { scrollTop, clientHeight, scrollHeight } =
-        document.documentElement;
+      const {scrollTop, clientHeight, scrollHeight} = document.documentElement;
       // 已经滚动到底部，切换为往上滚动
       if (scrollTop + clientHeight >= scrollHeight) {
         this.config.scrollFlag = -1;
@@ -219,10 +216,8 @@ export default {
     startAutoRead() {
       if (this.timerAutoRead == null) {
         const _this = this;
-        this.timerAutoRead = setInterval(function () {
-          let scrollYOffset =
-            window.pageYOffset +
-            _this.config.scrollFlag * _this.config.scrollOffset;
+        this.timerAutoRead = setInterval(() => {
+          let scrollYOffset = window.pageYOffset + _this.config.scrollFlag * _this.config.scrollOffset;
           // 模拟滚动
           window.scrollTo(0, scrollYOffset);
           _this.computeScrollPageDirection();
@@ -251,17 +246,13 @@ export default {
     startAutoFlash() {
       if (this.timeAutoSwitchPage === null) {
         // 定时切换下一页一下页面避免被判定为后台
-        this.timeAutoSwitchPage = this.startAutoSwitchPage(
-          this.switchToNextPage
-        );
+        this.timeAutoSwitchPage = this.startAutoSwitchPage(this.switchToNextPage);
       }
     },
     // 停止刷时长模式
     stopAutoFlash() {
       if (this.timeAutoSwitchPage) {
-        this.timeAutoSwitchPage = this.stopAutoSwitchPage(
-          this.timeAutoSwitchPage
-        );
+        this.timeAutoSwitchPage = this.stopAutoSwitchPage(this.timeAutoSwitchPage);
       }
     },
   },
@@ -274,7 +265,7 @@ export default {
 
       if (newValue === false) {
         this.stopAutoRead();
-        Object.assign(this.config, { timeFlashMode: false });
+        Object.assign(this.config, {timeFlashMode: false});
       }
     },
     // 切换了 阅读方向 开关
@@ -300,21 +291,17 @@ export default {
     "config.timeFlashMode"(newValue, oldValue) {
       if (newValue === true) {
         // 开启自动阅读相关功能
-        Object.assign(this.config, { isScrolling: true });
+        Object.assign(this.config, {isScrolling: true});
         // 开启定时下一页
         this.startAutoFlash();
-        // 开启定时刷新页面（避免内存占用）
-        // this.startAutoReloadPage();
       }
 
       if (newValue === false) {
         // 关闭自动阅读相关功能
-        Object.assign(this.config, { isScrolling: false });
+        Object.assign(this.config, {isScrolling: false});
 
         // 关闭定时下一页
         this.stopAutoFlash();
-        // 关闭定时刷新页面
-        // this.stopAutoReloadPage();
       }
     },
   },
@@ -335,6 +322,7 @@ export default {
 .gray {
   color: #928b8b;
 }
+
 .el-card__header {
   padding: 5px 20px !important;
 }
