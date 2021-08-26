@@ -186,7 +186,7 @@ export default {
     computeSwitchPageDirection() {
       // 等待两秒等待页面重新加载完成
       const isLast =
-        document.getElementsByClassName("readerFooter_button").length === 0;
+        document.getElementsByClassName("readerFooter_button").length === 1;
       const isFirst =
         document.getElementsByClassName("readerBookInfo").length === 1;
       // 当前是正向，并且已经到达最后一页，则切换到反向
