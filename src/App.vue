@@ -185,7 +185,7 @@ export default {
     // 计算翻页方向 -1往前翻 1 往后翻
     computeSwitchPageDirection() {
       // 等待两秒等待页面重新加载完成
-      const isLast = document.getElementsByClassName("readerFooter_button").length === 1;
+      const isLast = document.getElementsByClassName("readerFooter_ending_finish").length === 1;
       const isFirst = document.getElementsByClassName("readerBookInfo").length === 1;
       // 当前是正向，并且已经到达最后一页，则切换到反向
       if (this.config.autoSwitchPageFlag === 1 && isLast) {
