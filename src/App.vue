@@ -1,5 +1,5 @@
 <template>
-  <el-popover placement="left" width="800">
+  <el-popover placement="left" width="800" trigger="hover">
     <template #reference>
       <el-button
         :style="{ opacity: config.isScrolling ? 0.5 : 1 }"
