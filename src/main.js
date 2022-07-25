@@ -15,6 +15,7 @@ import {
   TabPane,
   Row,
   Col,
+  Divider,
 } from 'element-ui';
 
 Vue.use(Input)
@@ -30,6 +31,7 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Divider)
 
 // 挂载节点
 const monkey_plugin = document.createElement("div")

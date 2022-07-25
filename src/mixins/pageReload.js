@@ -5,10 +5,18 @@ export default {
   data() {
     return {
       // wait seconds to reload 等待刷新页面的时间
-      config: { waitSecondsToReload: 0 },
+      config: {
+        waitSecondsToReload: 0,
+        countPageReloadSeconds: 300
+      },
       timeAutoReloadPage: null,
       // 刷新页面的秒数间隔
-      countPageReloadSeconds: 300
+    }
+  },
+  watch: {
+    // 自动阅读开关开启后
+    "config.isScrolling"(newValue, oldValue) {
+      (!!newValue && !!this.config.timeFlashMode) ? this.startAutoReloadPage() : this.stopAutoReloadPage()
     }
   },
   methods: {
@@ -23,10 +31,10 @@ export default {
       if (!this.timeAutoReloadPage) {
         this.timeAutoReloadPage = setInterval(() => {
           const seconds = this.plusWaitSeconds();
-          // 等待 大于或等于${this.countPageReloadSeconds} 秒的时候刷新页面
-          if (seconds >= this.countPageReloadSeconds) {
+          // 等待 大于或等于${this.countPageReloadSeconds} 秒的时候刷新页面,触发后台统计时长
+          if (seconds >= this.config.countPageReloadSeconds) {
             this.resetWaitSeconds()
-            // window.location.reload()
+            this.switchToNextPage()
           }
         }, 1000);
       }

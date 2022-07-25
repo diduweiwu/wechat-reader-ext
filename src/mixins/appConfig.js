@@ -21,19 +21,18 @@ export default {
       try {
         const config = JSON.parse(configJson);
         Object.assign(this.config, config);
+        console.log(this.config)
       } catch (e) {
         console.log("解析配置出错，使用默认配置");
       }
     },
-    sleep(time) {
-      return new Promise((resolve) => setTimeout(resolve, time));
-    }
   },
   mounted() {
     // 等待元素加载完成再进行配置加载
     const timeCheck = setInterval(() => {
       const loadFlag = document.getElementsByClassName('readerFooter').length
       console.log(`继续等待和检查 ${loadFlag}`);
+
       if (loadFlag) {
         console.log('页面加载完成，开始加载配置');
         this.loadConfig()

@@ -1,29 +1,37 @@
 <template>
-  <div>
+  <div style="height: 268px">
     <el-row :gutter="10">
       <el-col :span="12">
         <el-card shadow="hover">
-          <span>安卓书币</span>
-          <br><strong class="gray">{{ me.androidBookCoin }} 个</strong>
+          <div class="mini-card">
+            <span>安卓书币</span>
+            <br><strong class="gray"><span class="count-number">{{ me.androidBookCoin }}</span> 个</strong>
+          </div>
         </el-card>
       </el-col>
       <el-col :span="12">
         <el-card shadow="hover">
-          <span>苹果书币</span>
-          <br><strong class="gray">{{ me.iosBookCoin }} 个</strong>
+          <div class="mini-card">
+            <span>苹果书币</span>
+            <br><strong class="gray"><span class="count-number">{{ me.iosBookCoin }}</span> 个</strong>
+          </div>
         </el-card>
       </el-col>
       <el-col :span="12">
         <el-card shadow="hover">
-          <span>无限卡</span>
-          <br><strong class="gray">{{ me.infiniteCardDays }} 天</strong>
+          <div class="mini-card">
+            <span>无限卡</span>
+            <br><strong class="gray"><span class="count-number">{{ me.infiniteCardDays }}</span> 天</strong>
+          </div>
         </el-card>
       </el-col>
       <el-col :span="12">
         <el-card shadow="hover">
-          <span>源码地址</span>
-          <br><strong class="gray"><a href="https://gitee.com/diduweiwu-itestdev/wechat-reader-ext"
-                                      target="_blank">点击直达🧐</a></strong>
+          <div class="mini-card">
+            <span>源码地址</span>
+            <br><strong class="gray"><a href="https://gitee.com/diduweiwu-itestdev/wechat-reader-ext"
+                                        target="_blank">点击直达🧐</a></strong>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -68,5 +76,10 @@ export default {
 </script>
 
 <style scoped>
-
+.mini-card {
+  height: 95px;
+}
+.count-number{
+font-size: 35px;
+}
 </style>
