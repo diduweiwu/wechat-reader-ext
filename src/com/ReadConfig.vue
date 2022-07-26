@@ -59,7 +59,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="翻页方向">
-            <el-radio-group v-model="config.autoSwitchPageFlag">
+            <el-radio-group :disabled="!config.isAutoSwitchPage" v-model="config.autoSwitchPageFlag">
               <el-radio border :label="1">正向</el-radio>
               <el-radio border :label="-1">反向</el-radio>
             </el-radio-group>
