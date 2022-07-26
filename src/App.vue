@@ -16,7 +16,7 @@
 
       </el-col>
       <el-col>
-        <el-popover placement="left" width="800" trigger="hover">
+        <el-popover placement="left" width="800" trigger="click">
           <template #reference>
             <el-button type="default" plain circle>
               <i class="el-icon-s-tools"/>
@@ -33,16 +33,15 @@
 </template>
 
 <script>
-import Me from "@/com/Me";
-import uiConfig from "@/mixins/uiConfig";
-import pageReload from "@/mixins/pageReload";
-import keyEvent from "@/mixins/keyEvent";
-import appConfig from "@/mixins/appConfig";
-import ReadConfig from "@/com/ReadConfig.vue";
+import uiConfig from "./mixins/uiConfig.js";
+import pageReload from "./mixins/autoSwitchPage.js";
+import keyEvent from "./mixins/keyEvent.js";
+import appConfig from "./mixins/appConfig.js";
+import ReadConfig from "./com/ReadConfig.vue";
 
 export default {
   name: "wechatReaderExt",
-  components: {ReadConfig, Me},
+  components: {ReadConfig},
   mixins: [uiConfig, pageReload, keyEvent, appConfig],
   data: () => ({
     config: {
@@ -62,9 +61,19 @@ export default {
 
       // 自动刷时长模式
       timeFlashMode: false,
+
+      // 自动休眠开关
+      isRandomSleep: false,
+      // 休眠时长,秒数
+      sleepCount: 0,
+      // 休眠的时长
+      sleepTotalCount: 60,
     },
     // 自动阅读定时器
     timerAutoRead: null,
+
+    // 休眠任务
+    sleepTask: null,
   }),
   methods: {
     // 切换至下一页
@@ -147,6 +156,10 @@ export default {
       if (this.timerAutoRead == null) {
         const _this = this;
         this.timerAutoRead = setInterval(() => {
+          // 正在休眠中
+          if (this.config.sleepCount > 0) {
+            return
+          }
           let scrollYOffset = window.scrollY + _this.config.scrollFlag * _this.config.scrollOffset;
           // 模拟滚动
           window.scrollTo(0, scrollYOffset);
@@ -161,20 +174,60 @@ export default {
         this.timerAutoRead = null;
       }
     },
+
+    // 启动自动休眠
+    startAutoSleep() {
+      const {isRandomSleep, isScrolling} = this.config
+      if (!isRandomSleep || !!this.sleepTask) {
+        return
+      }
+      this.sleepTask = setInterval(() => {
+        // 没有自动阅读了,重置休眠判断
+        if (!isScrolling) {
+          Object.assign(this.config, {sleepCount: 0})
+          return
+        }
+
+        const {sleepTotalCount, sleepCount} = this.config
+
+        // 正在休眠中,忽略,但是休眠计数减1
+        if (sleepCount > 0) {
+          console.log(`正在休眠中,剩余${sleepCount}`)
+          Object.assign(this.config, {sleepCount: sleepCount - 1})
+          return
+        }
+
+        const random = Math.ceil(Math.random() * 1000)
+        // 大于等于980,2%概率开启休眠
+        if (random >= 980) {
+          console.log(`本次随机: ${random}`)
+          Object.assign(this.config, {sleepCount: sleepTotalCount})
+          console.log(`开启,剩余${sleepTotalCount}`)
+        }
+      }, 1000)
+    },
+    stopAutoSleep() {
+      console.log('自动阅读停止,关闭休眠任务')
+      if (!!this.sleepTask) {
+        Object.assign(this.config, {sleepCount: 0})
+        clearInterval(this.sleepTask)
+      }
+    },
   },
   watch: {
     // 切换了 自动阅读 开关
     "config.isScrolling"(newValue, oldValue) {
       if (newValue === true) {
         this.startAutoRead();
+        this.startAutoSleep();
       }
 
       // 阅读开关 被关闭,停止自动阅读,并赋值
       if (newValue === false) {
         this.stopAutoRead();
+        this.stopAutoSleep();
       }
     },
-
   },
 };
 </script>
@@ -197,5 +250,17 @@ export default {
 
 .el-card__header {
   padding: 5px 20px !important;
+}
+
+.el-divider--horizontal {
+  margin: 15px 0;
+}
+
+.el-card__body {
+  padding: 10px;
+}
+
+.el-range-editor--mini.el-input__inner {
+  width: 100%;
 }
 </style>

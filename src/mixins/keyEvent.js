@@ -18,14 +18,14 @@ export default {
         delete evtObj.keyCode;
         //为了模拟keycode
         if (typeof evtObj.keyCode === "undefined") {
-          Object.defineProperty(evtObj, "keyCode", { value: keyCode });
+          Object.defineProperty(evtObj, "keyCode", {value: keyCode});
         } else {
           evtObj.key = String.fromCharCode(keyCode);
         }
 
         if (typeof evtObj.ctrlKey === "undefined") {
           //为了模拟ctrl键
-          Object.defineProperty(evtObj, "ctrlKey", { value: true });
+          Object.defineProperty(evtObj, "ctrlKey", {value: true});
         } else {
           evtObj.ctrlKey = true;
         }

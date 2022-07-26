@@ -2,20 +2,19 @@ import Vue from 'vue'
 import App from './App.vue'
 
 import {
-  Input,
-  Radio,
-  RadioGroup,
   Button,
-  Popover,
-  Tooltip,
+  Card,
+  Col,
   Form,
   FormItem,
-  Card,
-  Tabs,
-  TabPane,
+  Input,
+  Popover,
+  Radio,
+  RadioGroup,
   Row,
-  Col,
-  Divider,
+  TabPane,
+  Tabs,
+  Tooltip,
 } from 'element-ui';
 
 Vue.use(Input)
@@ -31,7 +30,6 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Row)
 Vue.use(Col)
-Vue.use(Divider)
 
 // 挂载节点
 const monkey_plugin = document.createElement("div")

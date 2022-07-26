@@ -7,7 +7,7 @@ export default {
       // wait seconds to reload 等待刷新页面的时间
       config: {
         waitSecondsToReload: 0,
-        countPageReloadSeconds: 300
+        countPageReloadSeconds: 60
       },
       timeAutoReloadPage: null,
       // 刷新页面的秒数间隔
@@ -16,7 +16,7 @@ export default {
   watch: {
     // 自动阅读开关开启后
     "config.isScrolling"(newValue, oldValue) {
-      (!!newValue && !!this.config.timeFlashMode) ? this.startAutoReloadPage() : this.stopAutoReloadPage()
+      (!!newValue && !!this.config.timeFlashMode) ? this.startAutoSwitchPage() : this.stopAutoSwitchPage()
     }
   },
   methods: {
@@ -26,20 +26,21 @@ export default {
     resetWaitSeconds() {
       this.config.waitSecondsToReload = 0
     },
-    startAutoReloadPage() {
-      // 5分钟刷新一次页面
+    startAutoSwitchPage() {
+      // 指定间隔切换页面
       if (!this.timeAutoReloadPage) {
         this.timeAutoReloadPage = setInterval(() => {
           const seconds = this.plusWaitSeconds();
           // 等待 大于或等于${this.countPageReloadSeconds} 秒的时候刷新页面,触发后台统计时长
-          if (seconds >= this.config.countPageReloadSeconds) {
+          // 并且不处于休眠状态
+          if (seconds >= this.config.countPageReloadSeconds && this.config.sleepCount === 0) {
             this.resetWaitSeconds()
             this.switchToNextPage()
           }
         }, 1000);
       }
     },
-    stopAutoReloadPage() {
+    stopAutoSwitchPage() {
       if (this.timeAutoReloadPage) {
         clearInterval(this.timeAutoReloadPage)
         this.timeAutoReloadPage = null;

@@ -1,5 +1,6 @@
 <template>
-  <div style="height: 268px">
+  <el-card>
+    <div slot="header">我的账户</div>
     <el-row :gutter="10">
       <el-col :span="12">
         <el-card shadow="hover">
@@ -35,7 +36,8 @@
         </el-card>
       </el-col>
     </el-row>
-  </div>
+
+  </el-card>
 </template>
 
 <script>
@@ -77,9 +79,10 @@ export default {
 
 <style scoped>
 .mini-card {
-  height: 95px;
+  height: 50px;
 }
-.count-number{
-font-size: 35px;
+
+.count-number {
+  font-size: 25px;
 }
 </style>
