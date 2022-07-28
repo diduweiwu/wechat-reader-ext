@@ -92,7 +92,9 @@ export default {
     computeSwitchPageDirection() {
       // 等待两秒等待页面重新加载完成
       const isLast = document.getElementsByClassName("readerFooter_ending_title").length === 1;
-      const isFirst = document.getElementsByClassName("chapterItem_current")[0].textContent === '版权信息';
+
+      const chapterCurrentItems = document.getElementsByClassName("chapterItem_current");
+      const isFirst = chapterCurrentItems.length && chapterCurrentItems[0].textContent === '版权信息';
 
       const needBuyElements = document.getElementsByClassName("readerFooter_button_twoLines")
       const isNeedBuy = needBuyElements.length && needBuyElements[0].textContent.includes('购买');
