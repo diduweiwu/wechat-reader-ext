@@ -70,11 +70,11 @@
             <template #label>
               <el-tooltip placement="left">
                 <div slot="content">
-                  <p>开启定时翻页后，可将页面放到后台,推荐设置为30秒~60秒之间</p>
-                  <p>会间隔一定时间进行翻页操作，避免被微信读书检测导致暂停时长累积</p>
+                  <p>开启定时刷新后，可将页面放到后台,推荐设置为30秒~60秒之间</p>
+                  <p>会间隔一定时间进行刷新页面操作，避免被微信读书检测导致暂停时长累积</p>
                   <strong>!如果您一直在前端阅读，则可以关闭该项避免影响阅读体验!</strong>
                 </div>
-                <span><i class="el-icon-info"/> 定时翻页</span>
+                <span><i class="el-icon-info"/> 定时刷新</span>
               </el-tooltip>
             </template>
             <el-radio-group v-model="config.timeFlashMode">
@@ -83,7 +83,7 @@
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item label="翻页间隔">
+          <el-form-item label="刷新间隔">
             <el-input
               :disabled="!config.timeFlashMode"
               v-model="config.countPageReloadSeconds"
