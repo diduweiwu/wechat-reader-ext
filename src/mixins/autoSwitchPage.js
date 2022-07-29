@@ -35,9 +35,10 @@ export default {
           // 并且不处于休眠状态
           if (seconds >= this.config.countPageReloadSeconds && this.config.sleepCount === 0) {
             this.resetWaitSeconds()
-            // this.switchToNextPage()
+            console.log('切换了页面~')
+            this.switchToNextPage()
             // 定时重新刷新页面
-            location.reload()
+            // location.reload()
           }
         }, 1000);
       }

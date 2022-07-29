@@ -2,9 +2,14 @@
 
 ### 使用说明
 
+- 安装: 安装TamperMonkey浏览器插件,然后前往安装脚本 [微信读书-WEB端自动阅读插件](https://greasyfork.org/zh-CN/scripts/407535-%E5%BE%AE%E4%BF%A1%E8%AF%BB%E4%B9%A6-web%E7%AB%AF%E8%87%AA%E5%8A%A8%E9%98%85%E8%AF%BB%E6%8F%92%E4%BB%B6)
 - 打开一本书的微信读书界面,点击界面右中方“读”字按钮即可
 - 如果需要后台刷时长，请一定记得开启 **定时翻页** 开关
 - Edge 浏览器请关闭TAB休眠或者在休眠配置中排除 https://weread.qq.com
+- 效果展示
+
+![界面截图](img/ui.png)
+
 
 ### 更新日志
 

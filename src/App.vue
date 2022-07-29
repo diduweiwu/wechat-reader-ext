@@ -157,6 +157,8 @@ export default {
     startAutoRead() {
       if (this.timerAutoRead == null) {
         const _this = this;
+
+        let count = 1;
         this.timerAutoRead = setInterval(() => {
           // 正在休眠中
           if (this.config.sleepCount > 0) {
@@ -164,6 +166,7 @@ export default {
           }
           let scrollYOffset = window.scrollY + _this.config.scrollFlag * _this.config.scrollOffset;
           // 模拟滚动
+          console.log(`滚动次数 ${count++}`)
           window.scrollTo(0, scrollYOffset);
           _this.computeScrollPageDirection();
         }, _this.config.timerScrollIMs);
