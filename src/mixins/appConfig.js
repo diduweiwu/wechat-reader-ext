@@ -24,7 +24,7 @@ export default {
         Object.assign(this.config, config);
         console.log('当前配置是', this.config)
       } catch (e) {
-        console.log("解析配置出错，使用默认配置");
+        console.error("解析配置出错，使用默认配置");
       }
     },
 

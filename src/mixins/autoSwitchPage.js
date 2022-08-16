@@ -35,10 +35,17 @@ export default {
           // 并且不处于休眠状态
           if (seconds >= this.config.countPageReloadSeconds && this.config.sleepCount === 0) {
             this.resetWaitSeconds()
-            console.log('切换了页面~')
-            this.switchToNextPage()
-            // 定时重新刷新页面
-            // location.reload()
+            const chapterSize = document.querySelector(".readerCatalog_list").children.length
+            // 有章节信息,说明当前页面正常
+            if (chapterSize > 0) {
+              this.switchToNextPage()
+              console.log('切换了页面~')
+              return
+            }
+
+            // 没有章节信息,说明当前页面没有正常加载完成,需要重新加载页面
+            console.log('页面加载异常,刷新了页面~')
+            location.reload()
           }
         }, 1000);
       }
