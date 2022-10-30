@@ -35,9 +35,9 @@ export default {
           // 并且不处于休眠状态
           if (seconds >= this.config.countPageReloadSeconds && this.config.sleepCount === 0) {
             this.resetWaitSeconds()
-            const chapterSize = document.querySelector(".readerCatalog_list").children.length
+            const chapterCurrent = document.querySelector(".chapterItem_current")
             // 有章节信息,说明当前页面正常
-            if (chapterSize > 0) {
+            if (chapterCurrent) {
               this.switchToNextPage()
               console.log('切换了页面~')
               return

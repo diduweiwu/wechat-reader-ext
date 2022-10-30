@@ -86,16 +86,10 @@ export default {
       // 此时这里应该判断是否为第一章/最终章,方便往回看,形成阅读闭环
       this.fireKeyEvent(document, "keydown", keyEventCode);
       // 等待500毫秒等页面加载完成再重新开启自动滚动
-      setTimeout(() => this.startAutoRead(), 500)
+      setTimeout(() => this.startAutoRead(), 1000)
     },
     // 计算翻页方向 -1往前翻 1 往后翻
     computeSwitchPageDirection() {
-      // 等待两秒等待页面重新加载完成
-      const isLast = document.getElementsByClassName("readerFooter_ending_title").length === 1;
-
-      const chapterCurrentItems = document.getElementsByClassName("chapterItem_current");
-      const isFirst = chapterCurrentItems.length && chapterCurrentItems[0].textContent === '版权信息';
-
       const needBuyElements = document.getElementsByClassName("readerFooter_button_twoLines")
       const isNeedBuy = needBuyElements.length && needBuyElements[0].textContent.includes('购买');
 
@@ -104,17 +98,33 @@ export default {
         return -1;
       }
 
+      const currentChapter = document.querySelector(".chapterItem_current");
+
+      // 当前菜单元素后面没有其他菜单,说明到达最后页
+      const isLast = currentChapter && (currentChapter.nextSibling == null);
       // 当前是正向，并且已经到达最后一页，则切换到反向
       if (this.config.autoSwitchPageFlag === 1 && isLast) {
         return -1;
       }
+
+      // 当前菜单元素前面没有其他菜单,说明到达第一页
+      const isFirst = currentChapter && (currentChapter.previousSibling == null);
 
       // 当前是逆向，并且已经到底第一页，则切换到正向
       if (this.config.autoSwitchPageFlag === -1 && isFirst) {
         return 1;
       }
 
+      //  否则保持当前方向不变
       return this.config.autoSwitchPageFlag;
+    },
+    // 检查页面是否正常
+    checkIsAvailable() {
+      const chapterCurrentItems = document.getElementsByClassName("chapterItem_current");
+      // 目录没有加载出来，说明页面加载出错了，进行页面刷新
+      if (!chapterCurrentItems) {
+        setTimeout(() => location.reload(), 1000)
+      }
     },
     // 计算滑动方向 -1往上滑动 1往下滑动
     computeScrollPageDirection() {
@@ -158,7 +168,6 @@ export default {
       if (this.timerAutoRead == null) {
         const _this = this;
 
-        let count = 1;
         this.timerAutoRead = setInterval(() => {
           // 正在休眠中
           if (this.config.sleepCount > 0) {
@@ -168,6 +177,7 @@ export default {
           // 模拟滚动
           // console.log(`滚动次数 ${count++}`)
           window.scrollTo(0, scrollYOffset);
+          _this.checkIsAvailable()
           _this.computeScrollPageDirection();
         }, _this.config.timerScrollIMs);
       }
