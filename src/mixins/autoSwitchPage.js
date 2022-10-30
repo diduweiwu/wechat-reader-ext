@@ -34,17 +34,8 @@ export default {
           // 等待 大于或等于${this.countPageReloadSeconds} 秒的时候刷新页面,触发后台统计时长
           // 并且不处于休眠状态
           if (seconds >= this.config.countPageReloadSeconds && this.config.sleepCount === 0) {
+            // 直接使用刷新页面的方式，避免后台切换页面失败
             this.resetWaitSeconds()
-            const chapterCurrent = document.querySelector(".chapterItem_current")
-            // 有章节信息,说明当前页面正常
-            if (chapterCurrent) {
-              this.switchToNextPage()
-              console.log('切换了页面~')
-              return
-            }
-
-            // 没有章节信息,说明当前页面没有正常加载完成,需要重新加载页面
-            console.log('页面加载异常,刷新了页面~')
             location.reload()
           }
         }, 1000);
