@@ -27,16 +27,18 @@ export default {
         console.error("解析配置出错，使用默认配置");
       }
     },
-
   },
   mounted() {
     // 等待元素加载完成再进行配置加载
     const timeCheck = setInterval(() => {
-      const loadFlag = document.getElementsByClassName('readerFooter').length
+      const loadFlag = document.querySelector('.navBarOffset')
 
       if (loadFlag) {
         console.log('页面加载完成，开始加载配置');
         this.loadConfig()
+
+        document.querySelector(".navBarOffset").style.paddingTop = this.config.isHideControls
+          ? "100px" : "0px"
         clearInterval(timeCheck);
       }
     }, 1000)

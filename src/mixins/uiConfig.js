@@ -27,10 +27,27 @@ export default {
       },
       deep: true,
     },
-
+    "config.autoWidth": {
+      handler: function (newValue, oldValue) {
+        if (!!newValue) {
+          this.resizeWidth(8000);
+        } else {
+          this.resizeWidth(this.config.readContentWidth);
+        }
+      }
+    },
     "config.isHideControls": {
       handler: function (newValue, oldValue) {
-        // 只有在正向滚动，并且到达底部时候，才进行翻页
+        document.querySelector(".readerTopBar").style.display = newValue
+          ? "" : "none"
+
+        let navBarOffset = document.querySelector(".navBarOffset")
+        if (!!navBarOffset) {
+          document.querySelector(".navBarOffset").style.paddingTop = newValue
+            ? "100px" : "0px"
+        }
+
+        // 隐藏头部和侧边的工具栏
         document.querySelector(".readerControls").style.opacity = newValue
           ? "1"
           : "0";

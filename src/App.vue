@@ -4,9 +4,11 @@
       <el-col>
         <el-tooltip trigger="hover" placement="left">
           <el-button :circle="true"
+                     tableindex="-1"
+                     id="switchScrollingBtn"
                      :plain="!config.isScrolling"
                      :type="config.isScrolling?'success':'default'"
-                     @click="config.isScrolling=!config.isScrolling">
+                     @click="switchScroll">
             读
           </el-button>
           <template #content>
@@ -75,6 +77,9 @@ export default {
       sleepCount: 0,
       // 休眠的时长
       sleepTotalCount: 60,
+
+      // 自动设置宽度
+      autoWidth: false,
     },
     // 自动阅读定时器
     timerAutoRead: null,
@@ -246,6 +251,10 @@ export default {
         window.location.reload()
       }
     },
+    // 切换阅读滚动开关
+    switchScroll() {
+      this.config.isScrolling = !this.config.isScrolling
+    }
   },
   watch: {
     // 切换了 自动阅读 开关
@@ -253,15 +262,31 @@ export default {
       if (newValue === true) {
         this.startAutoRead();
         this.startAutoSleep();
+        // 自动阅读的时候，为了让字能够滚动到中央区域
+        document.querySelector(".app_content").style.paddingTop = "350px";
+        document.querySelector(".app_content").style.paddingBottom = "350px";
       }
 
       // 阅读开关 被关闭,停止自动阅读,并赋值
       if (newValue === false) {
         this.stopAutoRead();
         this.stopAutoSleep();
+        document.querySelector(".app_content").style.paddingTop = "0";
+        document.querySelector(".app_content").style.paddingBottom = "0";
       }
+      // 强行让btn失去焦点，避免监听事件失效
+      document.querySelector("#switchScrollingBtn").blur()
     },
   },
+  mounted() {
+    let _this = this
+    window.onkeydown = function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        // ctl+回车键 切换阅读开关
+        _this.switchScroll()
+      }
+    };
+  }
 };
 </script>
 
@@ -271,6 +296,7 @@ export default {
   position: fixed;
   top: calc(100vh / 2);
   right: 10px;
+  z-index: 1024;
 }
 
 .el-col {

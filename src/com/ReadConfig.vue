@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="5">
     <el-col :span="12">
-      <el-card style="min-height: 450px">
+      <el-card style="min-height: 500px">
         <div slot="header">阅读设置</div>
         <el-form ref="autoScroll"
                  :disabled="config.isScrolling"
@@ -99,6 +99,7 @@
           </el-form-item>
 
         </el-form>
+        <el-alert title="提示: ctrl+回车键 可快速切换自动阅读" type="success" :closable="false"/>
       </el-card>
     </el-col>
 
@@ -113,6 +114,7 @@
         >
           <el-form-item label="阅读宽度">
             <el-input
+              :disabled="!!config.autoWidth"
               v-model="config.readContentWidth"
               type="number"
               :max="20000"
@@ -120,6 +122,12 @@
             >
               <template #suffix><i>像素</i></template>
             </el-input>
+          </el-form-item>
+          <el-form-item label="自动宽度">
+            <el-radio-group v-model="config.autoWidth">
+              <el-radio border :label="true">开启</el-radio>
+              <el-radio border :label="false">关闭</el-radio>
+            </el-radio-group>
           </el-form-item>
 
           <el-form-item label="工具栏">
@@ -192,7 +200,7 @@ export default {
     // 2.每5分钟刷新一次页面
     "config.timeFlashMode"(newValue, oldValue) {
       Object.assign(this.config, {timeFlashMode: !!newValue});
-    },
+    }
   },
 }
 </script>
