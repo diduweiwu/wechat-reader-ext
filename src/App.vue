@@ -13,7 +13,6 @@
             点击切换阅读状态~
           </template>
         </el-tooltip>
-
       </el-col>
       <el-col>
         <el-popover placement="left" width="800" trigger="click">
@@ -22,9 +21,18 @@
               <i class="el-icon-s-tools"/>
             </el-button>
           </template>
-
           <ReadConfig :config="config"/>
+        </el-popover>
+      </el-col>
+      <el-col>
+        <el-popover placement="left" width="200" trigger="hover">
+          <template #reference>
+            <el-button type="default" plain circle @click="resetSettings">
+              <i class="el-icon-delete-solid"/>
+            </el-button>
 
+          </template>
+          点击恢复所有本地设置成默认
         </el-popover>
       </el-col>
     </el-row>
@@ -36,13 +44,12 @@
 import uiConfig from "./mixins/uiConfig.js";
 import pageReload from "./mixins/autoSwitchPage.js";
 import keyEvent from "./mixins/keyEvent.js";
-import appConfig from "./mixins/appConfig.js";
 import ReadConfig from "./com/ReadConfig.vue";
 
 export default {
   name: "wechatReaderExt",
   components: {ReadConfig},
-  mixins: [uiConfig, pageReload, keyEvent, appConfig],
+  mixins: [uiConfig, pageReload, keyEvent],
   data: () => ({
     config: {
       // 标记是否在自动阅读
@@ -85,6 +92,7 @@ export default {
 
       // 此时这里应该判断是否为第一章/最终章,方便往回看,形成阅读闭环
       this.fireKeyEvent(document, "keydown", keyEventCode);
+
       // 等待500毫秒等页面加载完成再重新开启自动滚动
       setTimeout(() => this.startAutoRead(), 1000)
     },
@@ -98,7 +106,8 @@ export default {
         return -1;
       }
 
-      const currentChapter = document.querySelector(".chapterItem_current");
+      // 当前选中的菜单项
+      const currentChapter = document.querySelector(".readerCatalog_list_item_selected");
 
       // 当前菜单元素后面没有其他菜单,说明到达最后页
       const isLast = currentChapter && (currentChapter.nextSibling == null);
@@ -226,6 +235,15 @@ export default {
       if (!!this.sleepTask) {
         Object.assign(this.config, {sleepCount: 0})
         clearInterval(this.sleepTask)
+      }
+    },
+    // 清空本地所有阅读配置
+    resetSettings() {
+      localStorage.removeItem("config")
+      let config = localStorage.getItem("config")
+      if (!config) {
+        alert("删除成功,即将重新加载页面")
+        window.location.reload()
       }
     },
   },

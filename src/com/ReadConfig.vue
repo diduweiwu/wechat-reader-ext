@@ -171,10 +171,12 @@
 
 <script>
 import Me from "./Me.vue";
+import appConfig from "../mixins/appConfig.js";
 
 export default {
   name: "ReadConfig",
   components: {Me},
+  mixins: [appConfig],
   props: {
     config: {type: Object, default: {}},
   },

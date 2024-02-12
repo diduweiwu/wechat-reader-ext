@@ -1,3 +1,4 @@
+
 export default {
   methods: {
     fireKeyEvent(el, evtType, keyCode) {
@@ -6,7 +7,8 @@ export default {
         // firefox 浏览器下模拟事件
         if (window.KeyEvent) {
           evtObj = document.createEvent("KeyEvents");
-          evtObj.initKeyEvent(evtType, true, true);
+          evtObj.initEvent(evtType, true, true);
+          evtObj.keyCode=37
           el.dispatchEvent(evtObj);
           return;
         }

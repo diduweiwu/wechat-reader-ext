@@ -34,7 +34,6 @@ export default {
     const timeCheck = setInterval(() => {
       const loadFlag = document.getElementsByClassName('readerFooter').length
 
-      console.log(`继续等待和检查 ${loadFlag}`);
       if (loadFlag) {
         console.log('页面加载完成，开始加载配置');
         this.loadConfig()
