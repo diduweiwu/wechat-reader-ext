@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="5">
     <el-col :span="12">
-      <el-card style="min-height: 500px">
+      <el-card style="min-height: 575px">
         <div slot="header">阅读设置</div>
         <el-form ref="autoScroll"
                  :disabled="config.isScrolling"
