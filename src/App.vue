@@ -1,7 +1,5 @@
 <template>
-  <div class="panel">
-    <el-button type="primary">我是按钮</el-button>
-  </div>
+  <h1 style="text-align: center">插件不需要UI界面的话，请移除我~</h1>
 </template>
 
 <script>
@@ -10,13 +8,3 @@ export default {
 };
 </script>
 
-<style>
-.panel {
-  width: 100px;
-  height: 100px;
-  background-color: rgb(145, 184, 241);
-  position: fixed;
-  top: 10px;
-  right: 10px;
-}
-</style>

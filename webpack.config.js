@@ -1,76 +1,100 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path');
+const webpack = require('webpack');
+const { VueLoaderPlugin } = require('vue-loader');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { UserscriptPlugin } = require('webpack-userscript');
+
+const isProduction = process.env.NODE_ENV === 'production';
+console.log('Is production mode:', isProduction);
 
 module.exports = {
   entry: './src/main.js',
+
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'build.js'
+    publicPath: '/',
+    filename: isProduction ? 'build.user.js' : '[name].[fullhash].js',  // 这里动态切换！
+    clean: true,
   },
+
   module: {
     rules: [
+      { test: /\.vue$/, loader: 'vue-loader' },
+      { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ],
-      }, {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-          }
-          // other vue-loader options go here
-        }
+        use: ['vue-style-loader', 'css-loader']
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
-        // base64-inline-loader 插件作用是把图片 字体这些文件都内联到css中
-        test: /\.(jpe?g|png|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-        use: 'base64-inline-loader?limit=1000&name=[name].[ext]'
+        test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: { maxSize: 1000 }
+        },
+        generator: { filename: '[name][ext]' }
       }
     ]
   },
+
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm-bundler.js'
     },
-    extensions: ['*', '.js', '.vue', '.json']
+    extensions: ['.js', '.vue', '.json']
   },
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true,
-    overlay: true
-  },
-  performance: {
-    hints: false
-  },
-}
 
-if (process.env.NODE_ENV === 'production') {
-  // module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    devMiddleware: {
+      publicPath: '/',   // 热更新正确路由
+    },
+    hot: true,
+    open: true
+  },
+
+  performance: { hints: false },
+
+  plugins: [
+    new VueLoaderPlugin(),
+
+    // 合并DefinePlugin，不要写两次
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      __VUE_OPTIONS_API__: JSON.stringify(true),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false)
     }),
-    // 不可启用代码压缩,greasyfork脚本规范不允许代码压缩
-    // new webpack.optimize.UglifyJsPlugin({
-    //   sourceMap: true,
-    //   compress: {
-    //     warnings: false
-    //   }
-    // }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ])
-}
+
+    // 调试用HTML，只插入我们想要的build.user.js
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      scriptLoading: 'defer',
+      filename: 'index.html',
+      inject: 'body',
+      chunks: 'all',  // 默认就all，保险起见写一下
+    }),
+
+    // 只有生产模式才打油猴脚本
+    ...(isProduction ? [new UserscriptPlugin({
+      headers: {
+        name: '修改为你的插件名称',
+        namespace: 'http://tampermonkey.net/',
+        version: '1.0.0',
+        description: '修改为你的插件描述',
+        match: ['https://*/*'],
+        grant: 'none'
+      },
+    })] : []),
+  ],
+
+  mode: isProduction ? 'production' : 'development',
+
+  optimization: {
+    minimize: false,
+    minimizer: [],   // 确保没有插件参与压缩
+  },
+
+  devtool: isProduction ? false : 'eval-source-map'
+};
