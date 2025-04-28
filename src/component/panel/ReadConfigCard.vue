@@ -70,8 +70,8 @@ watch(config, (newVal) => {
       <n-form-item label="翻页方向">
         <n-radio-group v-model:value="config.autoSwitchPageDirection">
           <n-space justify="space-evenly">
-            <n-radio value="left">往左</n-radio>
-            <n-radio value="right">往右</n-radio>
+            <n-radio value="LEFT">往左</n-radio>
+            <n-radio value="RIGHT">往右</n-radio>
           </n-space>
         </n-radio-group>
       </n-form-item>

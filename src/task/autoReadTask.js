@@ -1,11 +1,13 @@
 import taskSignal from "./taskSignal";
 import {defaultReadConfig} from "@/config/autoReadConfig";
 import {scrollPage} from "@/helper/scrollHelper";
-  import workerRaw from '@/worker/autoReadWorker.worker?raw';
+import workerRaw from '@/worker/autoReadWorker.worker?raw';
+import {simulateArrowLeft, simulateArrowRight} from "@/helper/keyboardHelper";
+import swtichPageDirection from "@/task/swtichPageDirection";
 
 export function composeAutoReadWorker() {
 
-  const blob = new Blob([workerRaw], { type: 'application/javascript' });
+  const blob = new Blob([workerRaw], {type: 'application/javascript'});
   const workerUrl = URL.createObjectURL(blob);
   return new Worker(workerUrl);
   // return composeWorker()
@@ -33,30 +35,47 @@ export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
   worker.onmessage = (event) => {
     const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
     const {scrollY} = scrollPage({direction, distance})
-    // // 开启了自动翻页
-    // if (!!autoSwitchPage) {
-    //   if (autoSwitchPageDirection === swtichPageDirection.LEFT) {
-    //     simulateArrowLeft()
-    //     return;
-    //   }
-    //
-    //   // 开启了自动翻页，优先进行自动翻页
-    //   if (autoSwitchPageDirection === swtichPageDirection.RIGHT) {
-    //     simulateArrowRight()
-    //     return;
-    //   }
-    //
-    //   return;
-    // }
 
     if (scrollY >= maxScrollY) {
+      // 执行了翻页
+      if (ifSwitchPage(autoSwitchPage,autoSwitchPageDirection)) {
+        return;
+      }
+
       direction = "up";
       return
     }
+
     if (scrollY === 0) {
+      if (ifSwitchPage(autoSwitchPage,autoSwitchPageDirection)) {
+        return;
+      }
+
       direction = "down";
     }
   };
+}
+
+function ifSwitchPage(autoSwitchPage, autoSwitchPageDirection) {
+  console.log(autoSwitchPage, autoSwitchPageDirection);
+  if (autoSwitchPageDirection) {}
+  // 开启了自动翻页
+  if (!!autoSwitchPage) {
+    if (autoSwitchPageDirection === swtichPageDirection.LEFT) {
+      simulateArrowLeft()
+      return true;
+    }
+
+    // 开启了自动翻页，优先进行自动翻页
+    if (autoSwitchPageDirection === swtichPageDirection.RIGHT) {
+      simulateArrowRight()
+      return true;
+    }
+
+    return false;
+  }
+
+  return false;
 }
 
 export function stopAutoReadTask(worker) {

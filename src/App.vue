@@ -22,6 +22,8 @@
         </template>
         <span>点击恢复所有本地设置成默认</span>
       </n-popover>
+      <n-button round @click="switchPage">翻页</n-button>
+
     </n-space>
   </div>
 </template>
@@ -33,6 +35,7 @@ import {eventKey, offEvent, onEvent} from "@/helper/eventHelper";
 import {getItem, removeItem, setItem} from "@/helper/storageHelper";
 import {defaultReadConfig, storageKey} from "@/config/autoReadConfig";
 import {composeAutoReadWorker, startAutoReadTask, stopAutoReadTask} from "@/task/autoReadTask";
+import {simulateArrowLeft, simulateArrowRight} from "@/helper/keyboardHelper";
 
 
 export default {
@@ -109,11 +112,13 @@ export default {
       offEvent(eventKey.READ_CONFIG_UPDATE_EVENT, readConfigChangedCallback)
     })
 
+    const switchPage = ()=>simulateArrowRight()
     return {
       switchAutoRead,
       reloadAutoRead,
       runningReadConfig,
       clearReadConfig,
+      switchPage,
     }
   },
 };
