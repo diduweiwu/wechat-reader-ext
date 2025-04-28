@@ -32,6 +32,11 @@ module.exports = {
         },
         generator: {filename: '[name][ext]'}
       },
+      {
+        test: /\.worker\.js$/,
+        use: 'raw-loader',
+        type: 'javascript/auto', // 必须加，不然 webpack 5 有可能警告
+      }
     ]
   },
 
@@ -67,15 +72,15 @@ module.exports = {
       __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false)
     }),
 
-    // 调试用HTML，只插入我们想要的build.user.js
-    new HtmlWebpackPlugin({
-      template: './index.html',
-      scriptLoading: 'defer',
-      filename: 'index.html',
-      inject: 'body',
-      chunks: 'all',  // 默认就all，保险起见写一下
-    }),
-
+    ...(isProduction ? [] : [
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        scriptLoading: 'defer',
+        filename: 'index.html',
+        inject: 'body',
+        chunks: 'all',
+      }),
+    ]),
     // 只有生产模式才打油猴脚本
     ...(isProduction ? [new UserscriptPlugin({
       headers: {
@@ -88,6 +93,7 @@ module.exports = {
         grant: '纯白约定',
         match: ['https://weread.qq.com/web/reader/*'],
       },
+      metajs: false,
     })] : []),
   ],
 

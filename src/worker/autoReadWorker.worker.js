@@ -1,5 +1,3 @@
-// 创建一个 Worker 脚本的字符串
-const workerScript = `
 
 let autoReadTask = null; // 必须先声明！
 
@@ -27,13 +25,3 @@ self.onmessage = (e) => {
     autoReadTask = null;
   }
 };
-
-`;
-
-export function composeWorker() {
-// 创建 Worker
-// 将 Worker 脚本作为 Blob 对象创建 URL
-  const blob = new Blob([workerScript], {type: 'application/javascript'});
-  const workerURL = URL.createObjectURL(blob);
-  return new Worker(workerURL);
-}

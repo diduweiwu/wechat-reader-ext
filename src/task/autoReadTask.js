@@ -1,10 +1,14 @@
 import taskSignal from "./taskSignal";
 import {defaultReadConfig} from "@/config/autoReadConfig";
 import {scrollPage} from "@/helper/scrollHelper";
-import {composeWorker} from "@/worker/autoReadWorker.worker";
+  import workerRaw from '@/worker/autoReadWorker.worker?raw';
 
 export function composeAutoReadWorker() {
-  return composeWorker()
+
+  const blob = new Blob([workerRaw], { type: 'application/javascript' });
+  const workerUrl = URL.createObjectURL(blob);
+  return new Worker(workerUrl);
+  // return composeWorker()
 }
 
 //自动滚动任务
