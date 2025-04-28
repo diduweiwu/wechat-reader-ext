@@ -1,3 +1,13 @@
+const keyMap = {
+  KeyA: 'KeyA',
+  KeyB: 'KeyB',
+  Digit1: 'Digit1',
+  ArrowLeft: 'ArrowLeft',
+  ArrowRight: 'ArrowRight',
+  ArrowUp: 'ArrowUp',
+  ArrowDown: 'ArrowDown',
+};
+
 export function simulateKey(key) {
   const event = new KeyboardEvent('keydown', {
     key: key,
@@ -8,4 +18,16 @@ export function simulateKey(key) {
   });
 
   document.dispatchEvent(event);  // 派发这个键盘事件
+}
+
+export function simulateArrowLeft() {
+  simulateKey(keyMap.ArrowLeft)
+}
+
+export function simulateArrowRight() {
+  simulateKey(keyMap.ArrowRight)
+}
+
+export {
+  keyMap
 }

@@ -30,13 +30,10 @@
 import {onBeforeUnmount, onMounted, reactive} from "vue";
 import ConfigPanel from "@/component/panel/ConfigPanel.vue";
 import {eventKey, offEvent, onEvent} from "@/helper/eventHelper";
-import {getItem, setItem} from "@/helper/storageHelper";
+import {getItem, removeItem, setItem} from "@/helper/storageHelper";
 import {defaultReadConfig, storageKey} from "@/config/autoReadConfig";
-import {startRead, stopRead} from "@/task/autoReadTask";
+import {composeAutoReadWorker, startAutoReadTask, stopAutoReadTask} from "@/task/autoReadTask";
 
-const composeAutoReadWorker = function () {
-  return new Worker(new URL('./worker/autoReadWorker.js', import.meta.url), {type: 'module'});
-}
 
 export default {
   name: "app",
@@ -44,13 +41,6 @@ export default {
   methods: {},
   setup() {
     const worker = composeAutoReadWorker();
-    onBeforeUnmount(() => {
-      // 页面卸载前销毁 Worker
-      if (worker) {
-        worker.terminate()
-      }
-      offEvent()
-    })
 
     const runningReadConfig = reactive({})
 
@@ -60,7 +50,7 @@ export default {
     }
 
     const startAutoRead = () => {
-      startRead(worker, runningReadConfig)
+      startAutoReadTask(worker, runningReadConfig)
       runningReadConfig.isAutoReading = true
       setItem(storageKey.READ_CONFIG, runningReadConfig)
     };
@@ -68,7 +58,7 @@ export default {
     const stopAutoRead = () => {
       runningReadConfig.isAutoReading = false
       setItem(storageKey.READ_CONFIG, runningReadConfig)
-      stopRead(worker);
+      stopAutoReadTask(worker);
     }
 
     reloadRunningReadConfig()
@@ -106,7 +96,17 @@ export default {
     }
 
     onMounted(() => {
+      // 添加事件监听
       onEvent(eventKey.READ_CONFIG_UPDATE_EVENT, readConfigChangedCallback)
+    })
+
+    onBeforeUnmount(() => {
+      // 页面卸载前销毁 Worker
+      if (worker) {
+        worker.terminate()
+      }
+      // 取消事件监听
+      offEvent(eventKey.READ_CONFIG_UPDATE_EVENT, readConfigChangedCallback)
     })
 
     return {

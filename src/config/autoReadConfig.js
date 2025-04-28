@@ -10,8 +10,8 @@ export const defaultReadConfig = {
   readStep: 100,
   readIntervalMillis: 100,
   readDirection: "down",
-  switchPageDirection: "right",
-  autoSwitch: false,
+  autoSwitchPageDirection: "right",
+  autoSwitchPage: false,
   autoRefresh: false,
 
   readWith: 1024,

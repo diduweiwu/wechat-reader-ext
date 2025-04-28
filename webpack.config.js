@@ -31,7 +31,7 @@ module.exports = {
           dataUrlCondition: {maxSize: 1000}
         },
         generator: {filename: '[name][ext]'}
-      }
+      },
     ]
   },
 
@@ -79,12 +79,14 @@ module.exports = {
     // 只有生产模式才打油猴脚本
     ...(isProduction ? [new UserscriptPlugin({
       headers: {
-        name: '修改为你的插件名称',
-        namespace: 'http://tampermonkey.net/',
-        version: '1.0.0',
-        description: '修改为你的插件描述',
-        match: ['https://*/*'],
-        grant: 'none'
+        name: '微信读书-WEB端自动阅读插件',
+        namespace: 'https://github.com/diduweiwu',
+        version: '2025.04.28.01',
+        license: 'MIT',
+        description: '① 打开一本书的微信读书界面,点击界面右中方“读”字按钮，然后修改相应配置，再打开“自动阅读”到开启即可 ② 如果需要后台刷时长，请一定记得开启 **定时翻页** 开关 ③ Edge 浏览器请关闭TAB休眠或者在休眠配置里面排除 https://weread.qq.com',
+        author: "纯白约定",
+        grant: '纯白约定',
+        match: ['https://weread.qq.com/web/reader/*'],
       },
     })] : []),
   ],
@@ -92,6 +94,8 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
 
   optimization: {
+    splitChunks: false,
+    runtimeChunk: false,
     minimize: false,
     minimizer: [],   // 确保没有插件参与压缩
   },

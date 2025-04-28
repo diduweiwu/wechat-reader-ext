@@ -16,8 +16,8 @@ const config = reactive({
   readStep: 100,
   readIntervalMillis: 100,
   readDirection: "down",
-  switchPageDirection: "right",
-  autoSwitch: false,
+  autoSwitchPageDirection: "right",
+  autoSwitchPage: false,
   autoRefresh: false,
   autoRefreshSeconds: 10,
 })
@@ -68,7 +68,7 @@ watch(config, (newVal) => {
         </n-radio-group>
       </n-form-item>
       <n-form-item label="翻页方向">
-        <n-radio-group v-model:value="config.switchPageDirection">
+        <n-radio-group v-model:value="config.autoSwitchPageDirection">
           <n-space justify="space-evenly">
             <n-radio value="left">往左</n-radio>
             <n-radio value="right">往右</n-radio>
@@ -76,7 +76,7 @@ watch(config, (newVal) => {
         </n-radio-group>
       </n-form-item>
       <n-form-item label="自动翻页">
-        <n-radio-group v-model:value="config.autoSwitch">
+        <n-radio-group v-model:value="config.autoSwitchPage">
           <n-space justify="space-evenly">
             <n-radio :value="true">开启</n-radio>
             <n-radio :value="false">关闭</n-radio>
