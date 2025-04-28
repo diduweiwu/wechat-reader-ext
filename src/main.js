@@ -1,10 +1,10 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import {create, NButton,NSpace,NTag} from 'naive-ui'
+import {create, NButton,NSpace,NPopover,NCard,NGrid,NGridItem,NForm,NFormItem,NInput,NRadio,NRadioGroup,NAlert,NInputNumber} from 'naive-ui'
 // 挂载节点
 
 const naive = create({
-  components: [NButton,NSpace,NTag]
+  components: [NButton,NSpace,NPopover,NCard,NGrid,NGridItem,NForm,NFormItem,NInput,NRadio,NRadioGroup,NAlert,NInputNumber]
 })
 
 const monkey_plugin = document.createElement("div")
