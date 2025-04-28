@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const { VueLoaderPlugin } = require('vue-loader');
+const {VueLoaderPlugin} = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { UserscriptPlugin } = require('webpack-userscript');
+const {UserscriptPlugin} = require('webpack-userscript');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -18,8 +18,8 @@ module.exports = {
 
   module: {
     rules: [
-      { test: /\.vue$/, loader: 'vue-loader' },
-      { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
+      {test: /\.vue$/, loader: 'vue-loader'},
+      {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},
       {
         test: /\.css$/,
         use: ['vue-style-loader', 'css-loader']
@@ -28,16 +28,17 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)$/,
         type: 'asset',
         parser: {
-          dataUrlCondition: { maxSize: 1000 }
+          dataUrlCondition: {maxSize: 1000}
         },
-        generator: { filename: '[name][ext]' }
+        generator: {filename: '[name][ext]'}
       }
     ]
   },
 
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm-bundler.js'
+      'vue$': 'vue/dist/vue.esm-bundler.js',
+      '@': path.resolve(__dirname, './src'),
     },
     extensions: ['.js', '.vue', '.json']
   },
@@ -53,7 +54,7 @@ module.exports = {
     open: true
   },
 
-  performance: { hints: false },
+  performance: {hints: false},
 
   plugins: [
     new VueLoaderPlugin(),

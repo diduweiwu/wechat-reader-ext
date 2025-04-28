@@ -1,10 +1,10 @@
 <script setup>
 
-import ReadConfig from "./ReadConfigCard.vue";
-import OtherConfig from "./OtherConfigCard.vue";
-import MyAccountant from "./AccountCard.vue";
-import {getItem} from "../../helper/storageHelper";
-import {defaultReadConfig, storageKey} from "../../config/autoReadConfig";
+import {getItem} from "@/helper/storageHelper";
+import {defaultReadConfig, storageKey} from "@/config/autoReadConfig";
+import ReadConfigCard from "@/component/panel/ReadConfigCard.vue";
+import OtherConfigCard from "@/component/panel/OtherConfigCard.vue";
+import AccountCard from "@/component/panel/AccountCard.vue";
 
 // 从localStorage读取初始化配置
 const storageReadConfig = getItem(storageKey.READ_CONFIG, defaultReadConfig);
@@ -14,12 +14,12 @@ const storageReadConfig = getItem(storageKey.READ_CONFIG, defaultReadConfig);
 <template>
   <n-grid x-gap="12" :cols="2" style="width: 800px">
     <n-grid-item>
-      <read-config :config="storageReadConfig"/>
+      <read-config-card :config="storageReadConfig"/>
     </n-grid-item>
     <n-grid-item>
       <n-space vertical>
-        <other-config :config="storageReadConfig"/>
-        <my-accountant/>
+        <other-config-card :config="storageReadConfig"/>
+        <account-card/>
       </n-space>
     </n-grid-item>
   </n-grid>

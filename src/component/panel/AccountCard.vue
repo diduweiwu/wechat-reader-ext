@@ -1,7 +1,7 @@
 <script setup>
 
-import MiniCard from "./MiniCard.vue";
 import {reactive} from "vue";
+import MiniCard from "@/component/panel/MiniCard.vue";
 
 const config = reactive({
   // 无限卡天数

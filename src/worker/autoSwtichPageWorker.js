@@ -1,6 +1,6 @@
 import taskSignal from "@/task/taskSignal";
 
-let autoReadTask = null; // 必须先声明！
+let autoSwitchPageTask = null; // 必须先声明！
 
 self.onmessage = (e) => {
   const payload = e.data;
@@ -15,14 +15,14 @@ self.onmessage = (e) => {
     return;
   }
 
-  if (signal === taskSignal.START && autoReadTask == null) {
-    autoReadTask = setInterval(() => {
-      self.postMessage("doAutoReadTask");
+  if (signal === taskSignal.START && autoSwitchPageTask == null) {
+    autoSwitchPageTask = setInterval(() => {
+      self.postMessage("doAutoSwitchPageTask");
     }, readIntervalMillis);
   }
 
-  if (signal === taskSignal.STOP && autoReadTask) {
-    clearInterval(autoReadTask);
-    autoReadTask = null;
+  if (signal === taskSignal.STOP && autoSwitchPageTask) {
+    clearInterval(autoSwitchPageTask);
+    autoSwitchPageTask = null;
   }
 };

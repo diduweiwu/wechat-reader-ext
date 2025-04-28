@@ -1,6 +1,6 @@
 <script setup>
 import {reactive, watch} from "vue";
-import {updatePartialReadConfig} from "../../config/autoReadConfig";
+import {updatePartialReadConfig} from "@/config/autoReadConfig";
 
 const props = defineProps({
   config: {

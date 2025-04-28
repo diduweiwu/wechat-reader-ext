@@ -1,4 +1,4 @@
-import {getItem, setItem} from "../helper/storageHelper";
+import {getItem, setItem} from "@/helper/storageHelper";
 
 export const storageKey = {
   READ_CONFIG: "READ_CONFIG",

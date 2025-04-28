@@ -28,11 +28,11 @@
 
 <script>
 import {onBeforeUnmount, onMounted, reactive} from "vue";
-import ConfigPanel from "./component/panel/ConfigPanel.vue";
-import {startRead, stopRead} from "./task/autoReadTask";
-import {getItem, removeItem, setItem} from "./helper/storageHelper";
-import {defaultReadConfig, storageKey} from "./config/autoReadConfig";
-import {eventKey, offEvent, onEvent} from "./helper/eventHelper";
+import ConfigPanel from "@/component/panel/ConfigPanel.vue";
+import {eventKey, offEvent, onEvent} from "@/helper/eventHelper";
+import {getItem, setItem} from "@/helper/storageHelper";
+import {defaultReadConfig, storageKey} from "@/config/autoReadConfig";
+import {startRead, stopRead} from "@/task/autoReadTask";
 
 const composeAutoReadWorker = function () {
   return new Worker(new URL('./worker/autoReadWorker.js', import.meta.url), {type: 'module'});
