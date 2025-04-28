@@ -4,7 +4,7 @@ import ReadConfig from "./ReadConfigCard.vue";
 import OtherConfig from "./OtherConfigCard.vue";
 import MyAccountant from "./AccountCard.vue";
 import {getItem} from "../../helper/storageHelper";
-import {defaultReadConfig, storageKey} from "../../const/readConfigstorage";
+import {defaultReadConfig, storageKey} from "../../config/autoReadConfig";
 
 // 从localStorage读取初始化配置
 const storageReadConfig = getItem(storageKey.READ_CONFIG, defaultReadConfig);

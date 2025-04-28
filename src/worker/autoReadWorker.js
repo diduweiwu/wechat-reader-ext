@@ -1,4 +1,4 @@
-import taskSignal from "../const/taskSignal";
+import taskSignal from "../task/taskSignal";
 
 let autoReadTask = null; // 必须先声明！
 
@@ -9,7 +9,7 @@ self.onmessage = (e) => {
     return;
   }
 
-  const {signal,readIntervalMillis} = payload;
+  const {signal, readIntervalMillis} = payload;
   if (!signal) {
     console.log('No signal in auto read worker');
     return;

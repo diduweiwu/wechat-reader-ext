@@ -29,9 +29,9 @@
 <script>
 import {onBeforeUnmount, onMounted, reactive} from "vue";
 import ConfigPanel from "./component/panel/ConfigPanel.vue";
-import {startRead, stopRead} from "./read/autoRead";
+import {startRead, stopRead} from "./task/autoReadTask";
 import {getItem, removeItem, setItem} from "./helper/storageHelper";
-import {defaultReadConfig, storageKey} from "./const/readConfigstorage";
+import {defaultReadConfig, storageKey} from "./config/autoReadConfig";
 import {eventKey, offEvent, onEvent} from "./helper/eventHelper";
 
 const composeAutoReadWorker = function () {

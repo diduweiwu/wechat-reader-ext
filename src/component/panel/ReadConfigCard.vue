@@ -1,7 +1,7 @@
 <script setup>
 
 import {reactive, watch} from "vue";
-import {updatePartialReadConfig} from "../../const/readConfigstorage";
+import {updatePartialReadConfig} from "../../config/autoReadConfig";
 import {emitter, eventKey} from "../../helper/eventHelper";
 
 const props = defineProps({

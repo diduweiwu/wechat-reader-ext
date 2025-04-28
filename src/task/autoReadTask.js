@@ -1,6 +1,6 @@
-import taskSignal from "../const/taskSignal";
+import taskSignal from "./taskSignal";
 import {scrollPage} from "../helper/scrollHelper";
-import {defaultReadConfig} from "../const/readConfigstorage";
+import {defaultReadConfig} from "../config/autoReadConfig";
 
 export function composeAutoReadWorker() {
   return new Worker(new URL('../worker/autoReadWorker.js', import.meta.url), {type: 'module'});

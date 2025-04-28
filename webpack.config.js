@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { UserscriptPlugin } = require('webpack-userscript');
 
 const isProduction = process.env.NODE_ENV === 'production';
-console.log('Is production mode:', isProduction);
 
 module.exports = {
   entry: './src/main.js',
