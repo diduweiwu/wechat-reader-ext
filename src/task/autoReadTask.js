@@ -10,8 +10,11 @@ export function composeAutoReadWorker() {
   const blob = new Blob([workerRaw], {type: 'application/javascript'});
   const workerUrl = URL.createObjectURL(blob);
   return new Worker(workerUrl);
-  // return composeWorker()
 }
+
+
+// 自动刷新的定时器
+let autoRefreshStartTime = Date.now();
 
 //自动滚动任务
 export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
@@ -32,13 +35,33 @@ export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
   // 是否自动翻页
   const autoSwitchPage = readConfig.autoSwitchPage
   const autoSwitchPageDirection = readConfig.autoSwitchPageDirection
+
+  const autoRefresh = readConfig.autoRefresh
+  const autoRefreshSeconds = readConfig.autoRefreshSeconds
+
+  let isReloading = false
   worker.onmessage = (event) => {
+    if (isReloading){
+      console.log("Reloading...");
+      autoRefreshStartTime = Date.now();
+      return;
+    }
+
     const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
     const {scrollY} = scrollPage({direction, distance})
 
+    // 检测是否要刷新页面
+    const currentTime = Date.now()
+    const refreshTimeCount = currentTime - autoRefreshStartTime
+    if (autoRefresh && refreshTimeCount >= autoRefreshSeconds * 1000) {
+      isReloading = true
+      location.reload()
+      return;
+    }
+
     if (scrollY >= maxScrollY) {
       // 执行了翻页
-      if (ifSwitchPage(autoSwitchPage,autoSwitchPageDirection)) {
+      if (ifSwitchPage(autoSwitchPage, autoSwitchPageDirection)) {
         return;
       }
 
@@ -47,7 +70,7 @@ export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
     }
 
     if (scrollY === 0) {
-      if (ifSwitchPage(autoSwitchPage,autoSwitchPageDirection)) {
+      if (ifSwitchPage(autoSwitchPage, autoSwitchPageDirection)) {
         return;
       }
 
@@ -57,8 +80,6 @@ export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
 }
 
 function ifSwitchPage(autoSwitchPage, autoSwitchPageDirection) {
-  console.log(autoSwitchPage, autoSwitchPageDirection);
-  if (autoSwitchPageDirection) {}
   // 开启了自动翻页
   if (!!autoSwitchPage) {
     if (autoSwitchPageDirection === swtichPageDirection.LEFT) {

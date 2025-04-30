@@ -13,6 +13,7 @@ export const defaultReadConfig = {
   autoSwitchPageDirection: "right",
   autoSwitchPage: false,
   autoRefresh: false,
+  autoRefreshSeconds: 60,
 
   readWith: 1024,
   autoWith: false,

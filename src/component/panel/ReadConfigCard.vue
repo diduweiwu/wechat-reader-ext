@@ -67,19 +67,20 @@ watch(config, (newVal) => {
           </n-space>
         </n-radio-group>
       </n-form-item>
-      <n-form-item label="翻页方向">
-        <n-radio-group v-model:value="config.autoSwitchPageDirection">
-          <n-space justify="space-evenly">
-            <n-radio value="LEFT">往左</n-radio>
-            <n-radio value="RIGHT">往右</n-radio>
-          </n-space>
-        </n-radio-group>
-      </n-form-item>
       <n-form-item label="自动翻页">
         <n-radio-group v-model:value="config.autoSwitchPage">
           <n-space justify="space-evenly">
             <n-radio :value="true">开启</n-radio>
             <n-radio :value="false">关闭</n-radio>
+          </n-space>
+        </n-radio-group>
+      </n-form-item>
+
+      <n-form-item label="翻页方向">
+        <n-radio-group :disabled="!config.autoSwitchPage" v-model:value="config.autoSwitchPageDirection">
+          <n-space justify="space-evenly">
+            <n-radio value="LEFT">往左</n-radio>
+            <n-radio value="RIGHT">往右</n-radio>
           </n-space>
         </n-radio-group>
       </n-form-item>
@@ -92,7 +93,7 @@ watch(config, (newVal) => {
         </n-radio-group>
       </n-form-item>
       <n-form-item label="刷新间隔">
-        <n-input-number placeholder=""
+        <n-input-number :disabled="!config.autoRefresh" placeholder=""
                         v-model:value="config.autoRefreshSeconds"
                         button-placement="both"
                         :min="5"

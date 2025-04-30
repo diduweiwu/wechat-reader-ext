@@ -35,8 +35,7 @@ import {eventKey, offEvent, onEvent} from "@/helper/eventHelper";
 import {getItem, removeItem, setItem} from "@/helper/storageHelper";
 import {defaultReadConfig, storageKey} from "@/config/autoReadConfig";
 import {composeAutoReadWorker, startAutoReadTask, stopAutoReadTask} from "@/task/autoReadTask";
-import {simulateArrowLeft, simulateArrowRight} from "@/helper/keyboardHelper";
-
+import {simulateArrowRight} from "@/helper/keyboardHelper";
 
 export default {
   name: "app",
@@ -65,10 +64,12 @@ export default {
     }
 
     reloadRunningReadConfig()
-    // 加载完成后，如果记录的状态是正在阅读中，自动开启阅读任务
-    if (runningReadConfig.isAutoReading) {
-      startAutoRead();
-    }
+    setTimeout(() => {
+      // 加载完成后，如果记录的状态是正在阅读中，自动开启阅读任务
+      if (runningReadConfig.isAutoReading) {
+        startAutoRead();
+      }
+    }, 2000)
 
     // 切换阅读任务开启/关闭
     const switchAutoRead = () => {
@@ -112,7 +113,7 @@ export default {
       offEvent(eventKey.READ_CONFIG_UPDATE_EVENT, readConfigChangedCallback)
     })
 
-    const switchPage = ()=>simulateArrowRight()
+    const switchPage = () => simulateArrowRight()
     return {
       switchAutoRead,
       reloadAutoRead,
