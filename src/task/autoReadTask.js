@@ -50,9 +50,14 @@ export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
   const autoRefreshSeconds = readConfig.autoRefreshSeconds
 
   let isReloading = false
+  let isRedirecting = false
   worker.onmessage = (event) => {
     // 只监听自动阅读任务
     if (event.data !== 'doAutoReadTask') {
+      return;
+    }
+    // 正在跳转中，不做任何操作
+    if (isRedirecting){
       return;
     }
 
@@ -75,6 +80,7 @@ export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
         return;
       }
 
+      isRedirecting =  true;
       location.href = currentReadingPage;
     }
 

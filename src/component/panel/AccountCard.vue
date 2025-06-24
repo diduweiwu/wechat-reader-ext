@@ -1,7 +1,8 @@
 <script setup>
 
-import {reactive} from "vue";
+import {onMounted, reactive} from "vue";
 import MiniCard from "@/component/panel/MiniCard.vue";
+import axios from "axios";
 
 const config = reactive({
   // 无限卡天数
@@ -15,6 +16,57 @@ const config = reactive({
   // 总共阅读时长
   totalReadingTime: 0,
 })
+
+
+// load member info
+const loadMemberInfo = () => {
+  const balanceCallback = res => {
+    const {giftBalance: iosBookCoin, peerBalance: androidBookCoin, welfare} = res.data
+    const {expiredTime} = welfare
+    const infiniteCardDays = Math.floor(expiredTime / 3600 / 24)
+    Object.assign(config, {iosBookCoin, androidBookCoin, infiniteCardDays})
+  }
+  axios.post(`/web/pay/balance`, {
+    "zoneid": "1",
+    "release": "1",
+    "pf": "weread_wx-2001-iap-2001-iphone"
+  }).then(balanceCallback)
+}
+
+// 加载个人信息，此处只展示阅读时长
+const loadMemberProfile = ()=> {
+  let profileApi = "https://i.weread.qq.com/user/profile"
+  axios.get(profileApi, {
+    withCredentials: true,
+    params: {
+      gender: 1,
+      signature: 1,
+      vDesc: 1,
+      location: 1,
+      totalReadingTime: 1,
+      currentReadingTime: 1,
+      finishedBookCount: 1,
+      followerCount: 1,
+      followingCount: 1,
+      totalLikedCount: 1,
+      isFollowing: 1,
+      platform: "wp",
+    }
+  }).then(response => {
+    const {status, data} = response
+    if (status !== 200) {
+      return
+    }
+    const {currentReadingTime, totalReadingTime} = data
+    Object.assign(config, {currentReadingTime, totalReadingTime})
+  })
+}
+
+onMounted(() => {
+  loadMemberInfo()
+  loadMemberProfile()
+})
+
 </script>
 
 <template>
@@ -28,31 +80,31 @@ const config = reactive({
       <n-grid-item>
         <mini-card
           title="安卓书币"
-          value="0"
+          :value="config.androidBookCoin"
           unit="个"/>
       </n-grid-item>
       <n-grid-item>
         <mini-card
           title="苹果书币"
-          value="0"
+          :value="config.iosBookCoin"
           unit="个"/>
       </n-grid-item>
       <n-grid-item>
         <mini-card
           title="本周阅读时长"
-          value="0"
+          :value="config.currentReadingTime"
           unit="小时"/>
       </n-grid-item>
       <n-grid-item>
         <mini-card
           title="总阅读时长"
-          value="0"
+          :value="config.totalReadingTime"
           unit="小时"/>
       </n-grid-item>
       <n-grid-item>
         <mini-card
           title="无限卡"
-          value="0"
+          :value="config.infiniteCardDays"
           unit="天"/>
       </n-grid-item>
       <n-grid-item>

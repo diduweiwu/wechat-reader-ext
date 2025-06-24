@@ -30,12 +30,12 @@ watch(config, (newVal) => {
 
 <template>
   <n-card class="readConfig" size="small" :bordered="false"
-          title="其他设置"
+          title="其他设置[待开发]"
           :segmented="{
       content: true,
       footer: 'soft',
     }">
-    <n-form size="small" label-placement="left" :model="config" label-width="auto">
+    <n-form size="small" disabled label-placement="left" :model="config" label-width="auto">
       <n-form-item label="阅读宽度">
         <n-input-number placeholder=""
                         v-model:value="config.readWith"
