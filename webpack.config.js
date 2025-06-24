@@ -91,7 +91,7 @@ module.exports = {
         description: '① 打开一本书的微信读书界面,点击界面右中方“读”字按钮，然后修改相应配置，再打开“自动阅读”到开启即可 ② 如果需要后台刷时长，请一定记得开启 **定时翻页** 开关 ③ Edge 浏览器请关闭TAB休眠或者在休眠配置里面排除 https://weread.qq.com',
         author: "纯白约定",
         grant: '纯白约定',
-        match: ['https://weread.qq.com/web/reader/*'],
+        match: ['https://weread.qq.com/*'],
       },
       metajs: false,
     })] : []),

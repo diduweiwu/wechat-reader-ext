@@ -4,6 +4,7 @@ import {scrollPage} from "@/helper/scrollHelper";
 import workerRaw from '@/worker/autoReadWorker.worker?raw';
 import {simulateArrowLeft, simulateArrowRight} from "@/helper/keyboardHelper";
 import swtichPageDirection from "@/task/swtichPageDirection";
+import {getSingleItem, setSingItem} from "@/helper/storageHelper";
 
 export function composeAutoReadWorker() {
 
@@ -15,6 +16,15 @@ export function composeAutoReadWorker() {
 
 // 自动刷新的定时器
 let autoRefreshStartTime = Date.now();
+
+const wereadHomePage = "https://weread.qq.com/"
+const readingHrefPrefix = wereadHomePage + "web/reader/"
+const currentPageKey = "currentReadingPage"
+
+function checkIfHome() {
+  // 判断是否是当首页
+  return wereadHomePage === window.location.href;
+}
 
 //自动滚动任务
 export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
@@ -41,7 +51,40 @@ export function startAutoReadTask(worker, readConfig = defaultReadConfig) {
 
   let isReloading = false
   worker.onmessage = (event) => {
-    if (isReloading){
+    // 只监听自动阅读任务
+    if (event.data !== 'doAutoReadTask') {
+      return;
+    }
+
+    // 当前是在首页,自动跳转到之前的阅读页面
+    if (checkIfHome()) {
+      // 获取正在阅读的页面
+      const currentReadingPage = getSingleItem(currentPageKey)
+      if (!currentReadingPage) {
+        return;
+      }
+      // 保存的是首页，忽略
+      if (currentReadingPage === wereadHomePage) {
+        return;
+      }
+
+      // 有保存阅读页面，并且匹配阅读页面前缀
+      console.log(currentReadingPage, readingHrefPrefix)
+      console.log(!currentReadingPage.startsWith(readingHrefPrefix))
+      if (!currentReadingPage.startsWith(readingHrefPrefix)) {
+        return;
+      }
+
+      location.href = currentReadingPage;
+    }
+
+    // 保存当前阅读的页面
+    const currentHref = location.href
+    if (currentHref.startsWith(readingHrefPrefix)) {
+      setSingItem(currentPageKey, location.href)
+    }
+
+    if (isReloading) {
       console.log("Reloading...");
       autoRefreshStartTime = Date.now();
       return;

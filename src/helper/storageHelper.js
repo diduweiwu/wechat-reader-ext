@@ -10,6 +10,25 @@ export function setItem(key, value) {
   }
 }
 
+
+// 保存数据 localStorage
+export function setSingItem(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    console.error(`Failed to serialize and save ${key}:`, e);
+  }
+}
+
+// 获取数据 localStorage
+export function getSingleItem(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    console.error(`Failed to serialize and save ${key}:`, e);
+  }
+}
+
 // 从 localStorage 获取对象，并处理反序列化
 export function getItem(key, defaultValue = null) {
   try {
